@@ -40,7 +40,8 @@ Remember - Issues, comments, and discussion threads are all timestamped and sear
 
 ## Resources:
 
-[Planning and tracking work for your team or project](https://docs.github.com/en/enterprise-cloud@latest/issues/tracking-your-work-with-issues/learning-about-issues/planning-and-tracking-work-for-your-team-or-project)
-[Using discussions](https://docs.github.com/en/enterprise-cloud@latest/get-started/using-github/communicating-on-github#which-discussion-tool-should-i-use)
-[About issue and pull request templates](https://docs.github.com/en/enterprise-cloud@latest/communities/using-templates-to-encourage-useful-issues-and-pull-requests/about-issue-and-pull-request-templates)
+[Planning and tracking work for your team or project](https://docs.github.com/en/enterprise-cloud@latest/issues/tracking-your-work-with-issues/learning-about-issues/planning-and-tracking-work-for-your-team-or-project)  
+[Using discussions](https://docs.github.com/en/enterprise-cloud@latest/get-started/using-github/communicating-on-github#which-discussion-tool-should-i-use)  
+[About issue and pull request templates](https://docs.github.com/en/enterprise-cloud@latest/communities/using-templates-to-encourage-useful-issues-and-pull-requests/about-issue-and-pull-request-templates)  
+
 
