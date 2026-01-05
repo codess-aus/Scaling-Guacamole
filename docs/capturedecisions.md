@@ -30,13 +30,17 @@ Copilot chat can help summarize long threads or issues, surfacing the main point
 ## TLDR: 
 
 Promote the use of issues as communication hubs-not just for bugs but for documenting decisions, context, and meeting outcomes.
-•	Encourage the use of labels and templates to make critical context discoverable and to standardize how teams record decisions and rationale.
-•	Use project boards and discussions for higher-level alignment and as a place to centralize decisions that span codebases or teams.
-•	Link everything: Reference pull requests, discussions, issues, and even external meeting notes using links so nothing gets orphaned.
-•	Adopt documentation practices in README or CONTRIBUTING.md files to instruct the team on where to log decisions (e.g., “If you made a major architectural choice or deferred work, record it in the relevant issue or discussion thread”).
-Remember - Issues, comments, and discussion threads are all timestamped and searchable. This means you can reconstruct a project’s entire decision and implementation history-a huge advantage for audits, onboarding, or open source contributors wanting deep project context.
-Resources:
 
-Planning and tracking work for your team or project
-Using discussions
-About issue and pull request templates
+•	Encourage the use of labels and templates to make critical context discoverable and to standardize how teams record decisions and rationale.  
+•	Use project boards and discussions for higher-level alignment and as a place to centralize decisions that span codebases or teams.  
+•	Link everything: Reference pull requests, discussions, issues, and even external meeting notes using links so nothing gets orphaned.  
+•	Adopt documentation practices in README or CONTRIBUTING.md files to instruct the team on where to log decisions (e.g., “If you made a major architectural choice or deferred work, record it in the relevant issue or discussion thread”).  
+
+Remember - Issues, comments, and discussion threads are all timestamped and searchable. This means you can reconstruct a project’s entire decision and implementation history-a huge advantage for audits, onboarding, or open source contributors wanting deep project context.  
+
+## Resources:
+
+[Planning and tracking work for your team or project](https://docs.github.com/en/enterprise-cloud@latest/issues/tracking-your-work-with-issues/learning-about-issues/planning-and-tracking-work-for-your-team-or-project)
+[Using discussions](https://docs.github.com/en/enterprise-cloud@latest/get-started/using-github/communicating-on-github#which-discussion-tool-should-i-use)
+[About issue and pull request templates](https://docs.github.com/en/enterprise-cloud@latest/communities/using-templates-to-encourage-useful-issues-and-pull-requests/about-issue-and-pull-request-templates)
+
