@@ -1,5 +1,9 @@
 # Developer FAQ Blog
 
+Azure Static Web App: https://green-stone-03a17880f.4.azurestaticapps.net
+GitHub Pages: https://green-stone-03a17880f.4.azurestaticapps.net
+
+
 A modern, accessible blog website featuring developer productivity tips and best practices.
 
 ## 🌟 Features
