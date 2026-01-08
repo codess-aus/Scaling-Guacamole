@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Exploring the GitHub Copilot Coding Agent: Automate Smarter, Build Faster">
+    <title>Exploring the GitHub Copilot Coding Agent - Developer FAQ</title>
+    <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <div class="header-content">
+                <a href="../index.html" class="back-link">← Back to Blog</a>
+                <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">
+                    <svg class="sun-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                    <svg class="moon-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <article class="container post-content">
+        <div class="post-hero">
+            <img src="../images/GHCPAgents.png" 
+                 alt="Exploring the GitHub Copilot Coding Agent">
+        </div>
+        
+        <div class="post-header">
+            <time class="post-date" datetime="2026-01-09">January 9, 2026</time>
+            <h1 class="post-title">Exploring the GitHub Copilot Coding Agent: Automate Smarter, Build Faster</h1>
+        </div>
+
+        <div class="post-body">
+            <p>GitHub Copilot's Coding Agent has been a real game-changer for automating everything from simple code fixes to major refactors. What sets it apart? It works as your own AI-powered "agent" that takes a plain-English prompt and turns it into real, production-ready changes - securely and reliably.</p>
+
+            <h2>How It Works</h2>
+            <p>You can kick off a Coding Agent session from several starting points:</p>
+            <ul>
+                <li>Directly from your editor (VS Code, JetBrains, etc.)</li>
+                <li>The Agent Task panel in your repository</li>
+                <li>Repo creation (right in the GitHub UI)</li>
+                <li>The chat interface on github.com</li>
+                <li>Even the GitHub Phone app on the go</li>
+            </ul>
+
+            <p>Once triggered, your prompt (could be "Add input validation to all endpoints" or "Refactor these modules for async I/O") is handed off to the AI, which runs securely in a locked-down GitHub Actions sandbox. This means your code, credentials, and environment are protected - the agent can't call out randomly or do anything unexpected in your name.</p>
+
+            <h2>Real-World Examples</h2>
+            <p>A few real-world examples of how I've seen this used:</p>
+
+            <h3>From the editor</h3>
+            <p>Highlight an old function and ask Copilot to modernize it for Python 3.11. A few seconds later, automated PR ready for review.</p>
+
+            <h3>Agent Task panel</h3>
+            <p>Pick a repo, launch a session with "Set up semantic-release versioning." The agent walks through each config step, handling repetitive changes across multiple files.</p>
+
+            <h3>From chat</h3>
+            <p>Type "Generate CRUD endpoints for this schema" while reviewing a pull request - you get a suggested implementation and tests, scoped to your repo.</p>
+
+            <h3>GitHub Phone app</h3>
+            <p>Spot a small bug reported by a teammate, start an agent session via the app, and the fix was prepped by the time you get to your desk.</p>
+
+            <h2>Safety & Traceability</h2>
+            <p>The coolest part: every session is traceable, reviewable, and runs in a way that prioritizes safety - no rogue changes or surprises.</p>
+
+            <h2>Learn More</h2>
+            <p>Want details on the architecture and security? <a href="https://docs.github.com/en/copilot/how-tos/use-copilot-agents/coding-agent" target="_blank" rel="noopener">GitHub's official docs on Copilot Coding Agent</a> break it down.</p>
+
+            <h2>Your Turn</h2>
+            <p>Have you tried automating coding tasks with Copilot's Coding Agent yet? What's your favorite use case - or feature request?</p>
+
+            <p>#GitHubCopilot #AIAutomation #DeveloperTools #GitHubActions #AgentMode #SecureCoding</p>
+        </div>
+    </article>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; 2026 Developer FAQ. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="../script.js"></script>
+</body>
+</html>
