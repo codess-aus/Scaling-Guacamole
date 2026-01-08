@@ -466,9 +466,7 @@ body {
 }
 
 .about-hero {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: var(--spacing-lg);
+    display: block;
     padding: var(--spacing-xl);
     background: linear-gradient(135deg, rgba(102, 126, 234, 0.12) 0%, rgba(118, 75, 162, 0.12) 100%);
     border: 1px solid var(--border-color);
@@ -488,9 +486,9 @@ body {
 }
 
 .about-actions {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
     gap: var(--spacing-sm);
-    flex-wrap: wrap;
     margin-bottom: var(--spacing-md);
 }
 
