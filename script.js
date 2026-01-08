@@ -126,3 +126,101 @@ if (mainContent) {
 console.log('%c👋 Developer FAQ Blog', 'font-size: 20px; font-weight: bold; color: #667eea;');
 console.log('%cBuilt with accessibility and performance in mind', 'font-size: 14px; color: #764ba2;');
 console.log('%cKeyboard shortcut: Alt + T to toggle theme', 'font-size: 12px; color: #666;');
+
+// Contact Form Modal Management
+const contactBtn = document.getElementById('contact-btn');
+const contactModal = document.getElementById('contact-modal');
+const modalClose = document.getElementById('modal-close');
+const contactForm = document.getElementById('contact-form');
+const formStatus = document.getElementById('form-status');
+
+// Web3Forms API key
+const WEB3FORMS_API_KEY = 'b28b96ac-3be4-4dfa-9b88-7b2c210a80b6';
+
+if (contactBtn) {
+    contactBtn.addEventListener('click', () => {
+        contactModal.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+    });
+}
+
+if (modalClose) {
+    modalClose.addEventListener('click', () => {
+        contactModal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+        formStatus.style.display = 'none';
+    });
+}
+
+// Close modal when clicking outside the content
+contactModal.addEventListener('click', (e) => {
+    if (e.target === contactModal) {
+        contactModal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+        formStatus.style.display = 'none';
+    }
+});
+
+// Close modal with Escape key
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && contactModal.style.display === 'flex') {
+        contactModal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+        formStatus.style.display = 'none';
+    }
+});
+
+if (contactForm) {
+    contactForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const submitBtn = contactForm.querySelector('button[type="submit"]');
+        const originalText = submitBtn.textContent;
+        submitBtn.textContent = 'Sending...';
+        submitBtn.disabled = true;
+        
+        const formData = new FormData(contactForm);
+        const data = {
+            access_key: WEB3FORMS_API_KEY,
+            name: formData.get('name'),
+            email: formData.get('email'),
+            phone: formData.get('phone'),
+            message: formData.get('message'),
+            from_name: 'Developer FAQ Contact Form'
+        };
+        
+        try {
+            const response = await fetch('https://api.web3forms.com/submit', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+            
+            const result = await response.json();
+            
+            if (result.success) {
+                formStatus.className = 'form-status success';
+                formStatus.textContent = '✓ Message sent successfully! I\'ll get back to you soon.';
+                formStatus.style.display = 'block';
+                contactForm.reset();
+                
+                setTimeout(() => {
+                    contactModal.style.display = 'none';
+                    document.body.style.overflow = 'auto';
+                    formStatus.style.display = 'none';
+                }, 3000);
+            } else {
+                throw new Error('Form submission failed');
+            }
+        } catch (error) {
+            formStatus.className = 'form-status error';
+            formStatus.textContent = '✗ Error sending message. Please try again or email me directly.';
+            formStatus.style.display = 'block';
+        } finally {
+            submitBtn.textContent = originalText;
+            submitBtn.disabled = false;
+        }
+    });
+}

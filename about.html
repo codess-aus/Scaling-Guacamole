@@ -47,7 +47,7 @@
                         <a class="cta social-cta github" href="https://github.com/codess-aus" target="_blank" rel="noopener">Follow on GitHub</a>
                         <a class="cta social-cta bluesky" href="https://bsky.app/profile/codess-aus.bsky.social" target="_blank" rel="noopener">Follow on Bluesky</a>
                     </div>
-                    <a class="cta ghost" href="mailto:codesswa@outlook.com?subject=Speaking%20or%20collab" aria-label="Email Codess-Aus">Book me to speak</a>
+                    <button class="cta ghost" id="contact-btn" aria-label="Open contact form">Book me to speak</button>
                 </div>
                 <div class="about-highlights">
                     <div class="highlight-card">
@@ -236,6 +236,35 @@
             </div>
         </section>
     </main>
+
+    <!-- Contact Form Modal -->
+    <div id="contact-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <button class="modal-close" id="modal-close" aria-label="Close contact form">&times;</button>
+            <h2>Get in Touch</h2>
+            <p>Fill out the form below and I'll get back to you soon.</p>
+            <form id="contact-form" class="contact-form">
+                <div class="form-group">
+                    <label for="name">Name *</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email *</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="tel" id="phone" name="phone">
+                </div>
+                <div class="form-group">
+                    <label for="message">Request Details *</label>
+                    <textarea id="message" name="message" rows="5" required></textarea>
+                </div>
+                <button type="submit" class="cta primary">Send Message</button>
+            </form>
+            <div id="form-status" class="form-status" style="display: none;"></div>
+        </div>
+    </div>
 
     <footer class="site-footer">
         <div class="container">
