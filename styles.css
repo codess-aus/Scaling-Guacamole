@@ -578,9 +578,30 @@ body {
     background: var(--card-bg);
 }
 
-.cta.ghost:hover {
+#contact-btn {
+    background-image: url('images/about%20me/optimized/conferences/NDCOslo1st.jpg');
+    background-size: cover;
+    background-position: center;
+    color: white;
+    position: relative;
+    border: none;
+    padding: 1.2rem 1.5rem;
+}
+
+#contact-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.7) 0%, rgba(118, 75, 162, 0.7) 100%);
+    border-radius: var(--radius-sm);
+    z-index: -1;
+}
+
+#contact-btn:hover {
     transform: translateY(-2px);
-    border-color: var(--accent-from);
 }
 
 .cta.text {
