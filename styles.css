@@ -494,6 +494,60 @@ body {
     margin-bottom: var(--spacing-md);
 }
 
+.social-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-xs);
+    align-items: center;
+}
+
+.social-cta {
+    border: 1px solid var(--border-color);
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    box-shadow: 0 6px 12px var(--card-shadow);
+}
+
+.social-cta:hover {
+    transform: translateY(-2px);
+}
+
+.social-cta.youtube {
+    background: linear-gradient(135deg, #ff0000 0%, #cc0000 100%);
+    color: white;
+    border-color: #ff0000;
+}
+
+.social-cta.linkedin {
+    background: #0a66c2;
+    color: white;
+    border-color: #0a66c2;
+}
+
+.social-cta.tiktok {
+    background: linear-gradient(135deg, #000000 0%, #111827 100%);
+    color: white;
+    border-color: #111827;
+}
+
+.social-cta.lemon8 {
+    background: #f9e000;
+    color: #1a1a1a;
+    border-color: #f3d100;
+}
+
+.social-cta.github {
+    background: #24292e;
+    color: white;
+    border-color: #1f2328;
+}
+
+.social-cta.bluesky {
+    background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+    color: white;
+    border-color: #0284c7;
+}
+
 .cta {
     display: inline-flex;
     align-items: center;
