@@ -1061,3 +1061,15 @@ button:focus {
         text-decoration: underline;
     }
 }
+/* Visitor counter */
+#visitor-counter {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    opacity: 0.7;
+    transition: opacity var(--transition-fast);
+    cursor: default;
+}
+
+#visitor-counter:hover {
+    opacity: 1;
+}

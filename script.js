@@ -224,3 +224,29 @@ if (contactForm) {
         }
     });
 }
+// Visitor counter
+function initVisitorCounter() {
+    const counterElement = document.getElementById('visitor-counter');
+    if (!counterElement) return;
+    
+    // Get or initialize visitor count
+    let visitorCount = localStorage.getItem('visitorCount');
+    if (!visitorCount) {
+        visitorCount = 1;
+    } else {
+        visitorCount = parseInt(visitorCount) + 1;
+    }
+    
+    // Save updated count
+    localStorage.setItem('visitorCount', visitorCount);
+    
+    // Update the display
+    counterElement.textContent = `Developers: ${visitorCount.toLocaleString()}`;
+}
+
+// Initialize counter when DOM is ready
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initVisitorCounter);
+} else {
+    initVisitorCounter();
+}
