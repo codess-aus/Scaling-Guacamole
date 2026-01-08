@@ -485,6 +485,10 @@ body {
     margin-bottom: var(--spacing-md);
 }
 
+.about-list {
+    margin-top: var(--spacing-lg);
+}
+
 .about-actions {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
