@@ -502,50 +502,45 @@ body {
 }
 
 .social-cta {
-    border: 1px solid var(--border-color);
-    background: var(--bg-secondary);
-    color: var(--text-primary);
-    box-shadow: 0 6px 12px var(--card-shadow);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    color: white;
+    box-shadow: 0 8px 16px var(--card-shadow);
 }
 
 .social-cta:hover {
     transform: translateY(-2px);
+    box-shadow: 0 12px 20px var(--card-shadow);
 }
 
 .social-cta.youtube {
-    background: linear-gradient(135deg, #ff0000 0%, #cc0000 100%);
-    color: white;
-    border-color: #ff0000;
+    background: linear-gradient(135deg, #ff6a6a 0%, #ff1744 100%);
+    border-color: #ff5c8d;
 }
 
 .social-cta.linkedin {
-    background: #0a66c2;
-    color: white;
-    border-color: #0a66c2;
+    background: linear-gradient(135deg, #8bd3ff 0%, #0a66c2 100%);
+    border-color: #4ba7ff;
 }
 
 .social-cta.tiktok {
-    background: linear-gradient(135deg, #000000 0%, #111827 100%);
-    color: white;
-    border-color: #111827;
+    background: linear-gradient(135deg, #14f1d9 0%, #8c4bff 100%);
+    border-color: #62c6ff;
 }
 
 .social-cta.lemon8 {
-    background: #f9e000;
+    background: linear-gradient(135deg, #fff275 0%, #7bdcb5 100%);
     color: #1a1a1a;
-    border-color: #f3d100;
+    border-color: #f8d44c;
 }
 
 .social-cta.github {
-    background: #24292e;
-    color: white;
-    border-color: #1f2328;
+    background: linear-gradient(135deg, #6b7280 0%, #312e81 100%);
+    border-color: #4b5563;
 }
 
 .social-cta.bluesky {
-    background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
-    color: white;
-    border-color: #0284c7;
+    background: linear-gradient(135deg, #7dd3fc 0%, #a855f7 100%);
+    border-color: #60a5fa;
 }
 
 .cta {
