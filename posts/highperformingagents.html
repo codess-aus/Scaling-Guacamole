@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Learn how to engineer high-performing AI agents using evaluation pipelines, feedback loops, and technical best practices with GitHub Copilot and Microsoft Foundry.">
+    <title>How I Engineer High-Performing AI Agents: Technical Guide with Code, Evals & Human Feedback - Developer FAQ</title>
+    <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <div class="header-content">
+                <a href="../index.html" class="back-link">← Back to Blog</a>
+                <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">
+                    <svg class="sun-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                    <svg class="moon-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <article class="container post-content">
+        <div class="post-hero">
+            <img src="../images/highperforming.png" 
+                 alt="How I Engineer High-Performing AI Agents">
+        </div>
+        
+        <div class="post-header">
+            <time class="post-date" datetime="2026-01-18">January 18, 2026</time>
+            <h1 class="post-title">How I Engineer High-Performing AI Agents: Technical Guide with Code, Evals & Human Feedback</h1>
+        </div>
+
+        <div class="post-body">
+            <p>Building AI agents that genuinely deliver requires more than prompt tuning or clever automation. My experience shows that rigorous measurement, benchmarking, and continuous refinement transform agents from mere demos into robust, production-grade tools. This post shares how I apply advanced evaluation pipelines, feedback loops, and technical best practices using GitHub Copilot and Microsoft Foundry, with code samples and implementation patterns.</p>
+
+            <h2>Step 1: The Copilot Workflow — Immediate Code & Prompt Testing</h2>
+
+            <p>During day-to-day development, I rely on GitHub Copilot for code generation, automation, and quick agent iteration. Key practices here include:</p>
+
+            <ul>
+                <li>Automated testing (unit/integration tests)</li>
+                <li>Targeted code reviews</li>
+                <li>Prompt design precision</li>
+            </ul>
+
+            <h3>Example: Fast, Testable Python Agent Skeleton</h3>
+
+            <p><strong>ai_agent.py</strong></p>
+
+            <pre><code class="language-python">import openai
+
+class SimpleAgent:
+    def __init__(self, prompt):
+        self.prompt = prompt
+        self.model = "gpt-4"
+</code></pre>
+
+            <p><strong>Why this matters:</strong> Having a clear skeleton lets me quickly swap prompts or logic, write targeted tests, and catch errors before scaling.</p>
+
+            <h2>Step 2: Building Evaluators — Measuring What Matters</h2>
+
+            <h3>Quantitative: Automated Unit Evals</h3>
+
+            <p>To measure correctness, I design simple eval scripts to run agent responses against gold-standard answers.</p>
+
+            <p><strong>agent_eval.py</strong></p>
+
+            <pre><code class="language-python">def evaluate_agent(agent, test_cases):
+    """
+    Runs agent on test_cases: [(input, expected_output)], returns eval results.
+    """
+    results = []
+    for inp, exp in test_cases:
+</code></pre>
+
+            <p><strong>Technical note:</strong> This pattern is model-agnostic. It's also easy to extend for more complex checks (e.g., semantic similarity, security, code style).</p>
+
+            <h3>Qualitative: Human-in-the-Loop Feedback</h3>
+
+            <p>Automated checks aren't enough for real-world edge cases. I gather human feedback, especially for subjective or business-specific criteria. Microsoft Foundry and similar frameworks make this scalable.</p>
+
+            <p><strong>Example: Simple Feedback Collector (Python)</strong></p>
+
+            <p><strong>human_feedback.py</strong></p>
+
+            <pre><code class="language-python">import csv
+
+def collect_feedback(agent, samples, feedback_file="feedback.csv"):
+    """
+    Presents samples to a human and logs feedback for future tuning.
+    """
+</code></pre>
+
+            <p><strong>Why this matters:</strong> Human review flags errors the automated pipeline misses, and the feedback lets me fine-tune agent settings and prompts iteratively.</p>
+
+            <h2>Step 3: Scoring Frameworks & Continuous Benchmarking</h2>
+
+            <p>Formal benchmarks like success rate, average response time, and "business rule compliance" create actionable metrics. In Foundry, I automate data collection and use structured datasets—making it easy to monitor trends and spot quality dips early.</p>
+
+            <p><strong>Example: Python Agent Scoring Pipeline</strong></p>
+
+            <p><strong>scoring_pipeline.py</strong></p>
+
+            <pre><code class="language-python">import statistics
+
+def score_results(results):
+    """Calculate key metrics from an eval results list."""
+    pass_pct = 100 * sum(r['passed'] for r in results) / len(results)
+    return {
+</code></pre>
+
+            <p><strong>Interesting fact:</strong> This benchmarking loop is a scaled-down example of what's possible in Microsoft Foundry, which adds dataset management, annotation tools, and integrated dashboards.</p>
+
+            <h2>Step 4: Feedback Iteration and Agent Tuning</h2>
+
+            <p>Once I gather feedback (human and automated), I update prompts, retrain or fine-tune models, and rerun evals. This cycle keeps pushing my agents' reliability higher as workflows grow.</p>
+
+            <p><strong>Example in JavaScript (for web agents):</strong></p>
+
+            <p><strong>agent-eval.js</strong></p>
+
+            <pre><code class="language-javascript">// Evaluator for a simple web LLM agent
+const testCases = [
+  {input: "2+2?", expected: "4"},
+  {input: "Fruit in Paris?", expected: "Parisian apple"}
+];
+</code></pre>
+
+            <p><strong>Note:</strong> This structure is similar to the Python pipeline and is the backbone for any production-grade evaluation suite.</p>
+
+            <h2>Final Takeaways & Resources</h2>
+
+            <ul>
+                <li><strong>Don't wait until something breaks.</strong> I set up evaluation pipelines at the start, not after deployment.</li>
+                <li><strong>Human feedback is irreplaceable</strong> for subjective, nuanced tasks.</li>
+                <li><strong>Automation + scoring = unmatched reliability</strong> as you chain or scale agents.</li>
+            </ul>
+
+            <p><a href="https://learn.microsoft.com/en-us/azure/ai-services/openai/overview">Evaluating Generative AI Apps (Microsoft Docs)</a></p>
+
+            <h2>Interesting Technical Notes</h2>
+
+            <ul>
+                <li>Evaluators are reusable across prompt engineering, agent architectures, and even different LLM backends (GPT-4, Claude, etc).</li>
+                <li>Continuous feedback loops keep your agents from drifting or failing silently.</li>
+                <li>Combining agent pipelines with data annotation and human validation scales with your team and business needs.</li>
+            </ul>
+
+        </div>
+    </article>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; 2026 Developer FAQ. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="../script.js"></script>
+</body>
+</html>
