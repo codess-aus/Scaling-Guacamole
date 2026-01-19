@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Migrating from Azure DevOps to GitHub: An In-Depth Guide for Teams - covers technical steps, code examples, pipelines, and best practices for seamless migration.">
+    <title>Migrating from Azure DevOps to GitHub: An In-Depth Guide for Teams</title>
+    <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <div class="header-content">
+                <a href="../index.html" class="back-link">&larr; Back to Blog</a>
+                <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">
+                    <svg class="sun-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                    <svg class="moon-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <article class="container post-content">
+        <div class="post-hero">
+            <img src="../images/ado2github.png" 
+                 alt="Migrating from Azure DevOps to GitHub">
+        </div>
+        
+        <div class="post-header">
+            <time class="post-date" datetime="2026-01-19">January 19, 2026</time>
+            <h1 class="post-title">Migrating from Azure DevOps to GitHub: An In-Depth Guide for Teams</h1>
+        </div>
+
+        <div class="post-body">
+            
+            <p><em>Inspired by insights from April Yoho (GitHub) and real-world migration stories.</em></p>
+
+            <h2>Introduction</h2>
+            <p>Many teams are looking to migrate from <strong>Azure DevOps (ADO)</strong> to <strong>GitHub</strong> to take advantage of modern developer workflows, integrated automation, and enhanced collaboration. If you're considering or planning this migration, this post covers <em>everything you need</em>: technical steps, pitfalls, code examples, process comparisons, and tips for making the switch seamless.</p>
+
+            <blockquote>
+                <p><strong>Fact:</strong> GitHub and Azure DevOps are both owned by Microsoft—but the platforms evolved with different focuses. Migrations are not just possible, they are well-supported and increasingly common.</p>
+            </blockquote>
+
+            <h2>Why Migrate? Key Benefits</h2>
+            <ul>
+                <li><strong>Unified Developer Experience:</strong> One place for code, issues, planning, and automation.</li>
+                <li><strong>Modern Automation:</strong> GitHub Actions offers an event-driven, open-source-powered CI/CD engine.</li>
+                <li><strong>Collaboration:</strong> Easy cross-org, cross-repo collaboration; open source-friendly.</li>
+                <li><strong>Security:</strong> Code scanning, Dependabot, and advanced permissions.</li>
+                <li><strong>Community:</strong> Vast marketplace and user base.</li>
+            </ul>
+
+            <h2>Mapping Features: ADO vs. GitHub</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ADO Feature</th>
+                        <th>GitHub Equivalent</th>
+                        <th>Notes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Repos (Git)</td>
+                        <td>Repos (Git)</td>
+                        <td>Seamless migration; TFVC requires conversion</td>
+                    </tr>
+                    <tr>
+                        <td>Work Items</td>
+                        <td>Issues, Projects</td>
+                        <td>Custom fields, automation; less reporting</td>
+                    </tr>
+                    <tr>
+                        <td>Boards</td>
+                        <td>Projects (Next Gen)</td>
+                        <td>Kanban, Table views</td>
+                    </tr>
+                    <tr>
+                        <td>Pipelines (YAML)</td>
+                        <td>Actions (YAML)</td>
+                        <td>Requires migration; syntax differs</td>
+                    </tr>
+                    <tr>
+                        <td>Pipelines (Classic)</td>
+                        <td>-</td>
+                        <td>No direct equivalent; refactor to YAML</td>
+                    </tr>
+                    <tr>
+                        <td>Artifacts</td>
+                        <td>GitHub Packages</td>
+                        <td>Test compatibility with package types</td>
+                    </tr>
+                    <tr>
+                        <td>Wikis</td>
+                        <td>Repo Wikis, Markdown files</td>
+                        <td>Export to Markdown recommended</td>
+                    </tr>
+                    <tr>
+                        <td>Extensions</td>
+                        <td>GitHub Marketplace, Actions</td>
+                        <td>Larger ecosystem in GitHub</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h2>Step-by-Step Migration Process</h2>
+
+            <h3>1. Assessment & Planning</h3>
+            <ul>
+                <li><strong>Inventory all assets:</strong> Repos, Boards, Pipelines, Packages, Permissions.</li>
+                <li><strong>Map dependencies:</strong> Know what is ADO-only and must be replaced/refactored.</li>
+                <li><strong>Choose a pilot:</strong> Use a non-critical or isolated project for trial migration.</li>
+            </ul>
+            <blockquote>
+                <p><strong>Tip:</strong> Document every process your team uses in ADO so nothing gets lost in translation.</p>
+            </blockquote>
+
+            <h3>2. Preparing GitHub</h3>
+            <ul>
+                <li>Create a new GitHub Organization (if needed).</li>
+                <li>Set up teams, permissions, security policies, branch protection rules, CODEOWNERS, etc.</li>
+                <li>Enable SSO or role mapping if integrating with enterprise identity solutions.</li>
+            </ul>
+
+            <pre><code class="language-yaml"># Example: enforce branch protection via .github/workflows/policy.yml
+name: Branch Policy
+on:
+  push:
+    branches: [main]
+jobs:
+  enforce:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Require PR reviews
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.repos.updateBranchProtection({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              branch: 'main',
+              required_pull_request_reviews: { required_approving_review_count: 2 }
+            })
+</code></pre>
+
+            <h3>3. Migrating Repositories (with Code)</h3>
+
+            <p><strong>For Git-Based Repos:</strong> Here's how you can migrate a Git repo from ADO to GitHub.</p>
+
+            <pre><code class="language-bash"># Clone from Azure DevOps (mirror to capture all branches/tags)
+git clone --mirror https://dev.azure.com/ADO_ORG/ADO_PROJECT/_git/REPO_NAME
+cd REPO_NAME.git
+
+# Push to GitHub (replace placeholder values)
+git remote add github https://github.com/GITHUB_ORG/REPO_NAME.git
+git push --mirror github
+</code></pre>
+
+            <ul>
+                <li>Mirror cloning grabs every branch, tag, and ref.</li>
+                <li>After migration, encourage devs to update local remotes.</li>
+            </ul>
+
+            <p><strong>For TFVC:</strong> You'll need to first export/convert to Git (many organizations use <a href="https://github.com/git-tfs/git-tfs">git-tfs</a>).</p>
+
+            <h3>4. Work Item and Boards Migration</h3>
+            <ul>
+                <li>Each ADO Work Item (user story, bug, etc.) can become a GitHub Issue.</li>
+                <li>Use <a href="https://github.com/github/azure-devops-migration-tools">Azure DevOps Migration Tools</a> or <a href="https://github.com/github/ado-migration">ado2gh</a> for bulk migration.</li>
+                <li>Custom fields may need mapping or creative use of GitHub labels and custom fields.</li>
+            </ul>
+
+            <p><strong>Converting a Work Item:</strong></p>
+
+            <pre><code class="language-json">{
+  "title": "Add user authentication",
+  "body": "Migrated from ADO: User Story #1234",
+  "labels": ["user story", "backlog"]
+}
+</code></pre>
+            <p><em>Use the <a href="https://docs.github.com/en/rest/issues/issues#create-an-issue">GitHub REST API</a> to bulk-create issues if needed.</em></p>
+
+            <h3>5. Pipeline Migration (ADO Pipelines to GitHub Actions)</h3>
+            <ul>
+                <li>Migrate YAML-based ADO pipelines to GitHub Actions workflows.</li>
+                <li>Refactor (or redesign) multi-stage pipelines, deployment environments, and secrets.</li>
+            </ul>
+
+            <p><strong>ADO Example (azure-pipelines.yml):</strong></p>
+            <pre><code class="language-yaml">trigger:
+- main
+
+jobs:
+- job: build
+  pool:
+    vmImage: 'ubuntu-latest'
+  steps:
+  - script: npm install
+  - script: npm test
+</code></pre>
+
+            <p><strong>Equivalent GitHub Actions (.github/workflows/ci.yml):</strong></p>
+            <pre><code class="language-yaml">name: CI
+on:
+  push:
+    branches: [main]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install dependencies
+        run: npm install
+      - name: Run tests
+        run: npm test
+</code></pre>
+
+            <p><em>Notes:</em></p>
+            <ul>
+                <li>Triggers and job environments are similar, but GitHub Actions syntax is unique.</li>
+                <li>Use the <a href="https://github.com/actions/checkout">actions/checkout</a> and <a href="https://github.com/actions/setup-node">actions/setup-node</a> for Node.js workflows.</li>
+                <li>For secrets, use GitHub's encrypted secrets at organization, repository, or environment scope.</li>
+            </ul>
+
+            <h3>6. Artifacts & Packages Migration</h3>
+            <ul>
+                <li>Push packages from ADO to GitHub using standard tools (npm, NuGet, Maven, etc.)</li>
+                <li>Update `.npmrc`, `nuget.config`, etc., to point to GitHub Packages.</li>
+            </ul>
+
+            <p><strong>Example: Publishing npm package to GitHub Packages</strong></p>
+            <p><code>.npmrc</code> for GitHub:</p>
+            <pre><code>//npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}
+@your-org:registry=https://npm.pkg.github.com
+</code></pre>
+
+            <p><strong>Publish Command:</strong></p>
+            <pre><code class="language-bash">npm publish --access public
+</code></pre>
+
+            <p><em>Note:</em> Test that your build/deploy processes resolve dependencies from the new registry.</p>
+
+            <h3>7. Wiki & Documentation Migration</h3>
+            <ul>
+                <li>Export ADO Wiki as Markdown (`.md`) files.</li>
+                <li>Add docs to `/docs` directory, `README.md`, or use GitHub's built-in wiki.</li>
+                <li>Re-link images (ADO stores them differently!).</li>
+                <li>Use a docs generator like <a href="https://www.mkdocs.org/">MkDocs</a> or <a href="https://docusaurus.io/">Docusaurus</a> for beautiful documentation portals if desired.</li>
+            </ul>
+
+            <h3>8. Training & Change Management</h3>
+            <ul>
+                <li>Run hands-on sessions for devs and Product Owners on GitHub Issues, Projects, Actions, and Security features.</li>
+                <li>Share internal guides and cheat sheets.</li>
+                <li>Appoint "GitHub Champions" on each team to help with transition.</li>
+                <li>Monitor feedback closely for the first sprint after going live.</li>
+            </ul>
+
+            <h2>Technical Tips, Tools, and Gotchas</h2>
+            <ul>
+                <li><strong>Test everything in a pilot project before running organization-wide.</strong></li>
+                <li><strong>Plan board/issue mapping:</strong> Some ADO customizations don't translate 1:1; simplify your workflow where possible.</li>
+                <li><strong>CI environments:</strong> GitHub Actions runners and ADO agents have slightly different permissions/networks.</li>
+                <li><strong>Reliance on ADO Extensions:</strong> Check whether there's an equivalent GitHub App or Action.</li>
+                <li><strong>Artifacts retention, permissions, and clean-up:</strong> Review how GitHub handles these compared to ADO.</li>
+                <li><strong>Incremental migration:</strong> It's fine to run both systems in parallel for a transition period; synchronize key pipelines and issues as needed.</li>
+            </ul>
+
+            <h2>Conclusion</h2>
+            <p>Migrating from Azure DevOps to GitHub lets your team modernize, simplify, and collaborate more effectively. While migrating can be complex, breaking it down into logical phases and combining technical migration with cultural change makes the process approachable—even enjoyable.</p>
+
+            <blockquote>
+                <p><strong>Pro Tip:</strong> Treat migration as a chance to clean house: drop unused pipelines, clarify your documentation, and adopt best practices that weren't possible (or obvious) in your old setup.</p>
+            </blockquote>
+
+            <h2>References and Resources</h2>
+            <ul>
+                <li><a href="https://docs.github.com/en/migrations/">GitHub Docs: Moving from Azure DevOps</a></li>
+                <li><a href="https://github.com/github/azure-devops-migration-tools">Azure DevOps Migration Tools</a></li>
+                <li><a href="https://github.com/github/ado-to-gh-issues">ADO to GitHub Issues Migration Tool</a></li>
+                <li><a href="https://learn.microsoft.com/en-us/azure/devops/migrate/migrate-from-azure-boards-to-github-issues">Migrating Work Items from Azure Boards to GitHub Issues</a></li>
+                <li><a href="https://docs.github.com/en/actions">GitHub Actions Documentation</a></li>
+                <li><a href="https://github.com/solidify/JiraAzureDevOpsMigration">Sample Repos for Migration Practice</a></li>
+                <li><a href="https://www.mkdocs.org/">MkDocs: Project Documentation Generator</a></li>
+            </ul>
+
+            <p>If you have questions, want migration scripts or YAML templates for your specific use case, or want to know how to get help from GitHub's engineering team—let's connect!</p>
+
+            <p><strong>#AzureDevOps #GitHub #Migration #DevOps #ProjectManagement #GitHubActions #Engineering</strong></p>
+
+        </div>
+    </article>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; 2026 Developer FAQ. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="../script.js"></script>
+</body>
+</html>
