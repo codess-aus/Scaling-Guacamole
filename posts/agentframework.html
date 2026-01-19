@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Building Robust Multi-Agent AI Workflows with Agent Framework and GitHub Copilot">
+    <title>Building Robust Multi-Agent AI Workflows with Agent Framework and GitHub Copilot</title>
+    <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <div class="header-content">
+                <a href="../index.html" class="back-link">← Back to Blog</a>
+                <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">
+                    <svg class="sun-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                    <svg class="moon-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <article class="container post-content">
+        <div class="post-hero">
+            <img src="../images/agentframework.png" 
+                 alt="Building Robust Multi-Agent AI Workflows with Agent Framework and GitHub Copilot">
+        </div>
+        
+        <div class="post-header">
+            <time class="post-date" datetime="2026-01-20">January 20, 2026</time>
+            <h1 class="post-title">Building Robust Multi-Agent AI Workflows with Agent Framework and GitHub Copilot</h1>
+        </div>
+
+        <div class="post-body">
+            <p>Multi-agent orchestration is revolutionizing how we automate complex, multi-step workflows with AI. Drawing from my own experience implementing these systems, I will dive into leveraging the Microsoft Agent Framework for constructing resilient, modular agentic workflows that operate as coordinated digital teams. You will see how to chain agents for approvals, documentation, quality checks, and releases, and how you can integrate GitHub Copilot for lightweight sequences. This post includes detailed explanations, sample code, and an architectural diagram.</p>
+
+            <blockquote>
+                <p><em>Interesting fact: The Agent Framework is like an operating system for digital teammates, ensuring each agent performs its duty and passes on context flawlessly.</em></p>
+            </blockquote>
+
+            <h2>Why Multi-Agent Workflows?</h2>
+
+            <p>"Single-assistant" tools are excellent for focused tasks, but real-world automation often demands a sequence of specialized steps: code suggestion, review, testing, documentation, approvals, and deployment. Connecting these steps using isolated scripts introduces gaps and context loss.</p>
+
+            <p>With a <strong>multi-agent workflow</strong>:</p>
+            <ul>
+                <li>Each AI agent is responsible for a focused unit of work.</li>
+                <li>Agents can be chained to form robust, end-to-end processes.</li>
+                <li>Context is preserved naturally from step to step.</li>
+                <li>Modular design allows easy adaptation when needs evolve.</li>
+            </ul>
+
+            <h2>Architectural Overview</h2>
+
+            <p>Below is a conceptual diagram of a typical multi-agent setup using Agent Framework with optional GitHub Copilot integration for lightweight coding tasks.</p>
+
+            <pre><code>    +----------------+       +-----------------+       +------------------+       +---------------------+
+    |  Code Writer   |       |   Doc Agent     |       |   QA Agent       |       |   Release Agent     |
+    | (Copilot, AF)  |-----> | (AgentFramework)|-----> | (AgentFramework) |-----> | (AgentFramework)    |
+    +----------------+       +-----------------+       +------------------+       +---------------------+
+            |                       |                         |                          |
+            v                       v                         v                          v
+    Human Prompt/Context   Documentation AI          Testing & Checks AI         Release Automation AI
+</code></pre>
+
+            <ul>
+                <li><strong>Copilot/AF</strong>: GitHub Copilot can serve as the initial code-writing agent, with the Agent Framework orchestrating subsequent steps.</li>
+                <li><strong>AgentFramework</strong>: Handles role-based execution, context preservation, handoffs, and error handling.</li>
+            </ul>
+
+            <h2>Setting Up the Agent Framework</h2>
+
+            <p>The Microsoft Agent Framework allows you to define, orchestrate, and chain agents as Python classes or services. Its event-driven model enables robust communication and modularity.</p>
+
+            <h3>1. Install Microsoft Agent Framework</h3>
+
+            <pre><code class="language-bash">pip install agentframework
+</code></pre>
+
+            <blockquote>
+                <p><em>Note: See the <a href="https://learn.microsoft.com/en-us/agent-framework/">official docs</a> for the latest setup details.</em></p>
+            </blockquote>
+
+            <h3>2. Define Specialized Agents</h3>
+
+            <p>Each agent is a Python class inheriting from <code>Agent</code>, implementing a specific step:</p>
+            <ul>
+                <li><strong>CodeAgent</strong>: Writes or modifies code (possibly invoking Copilot)</li>
+                <li><strong>DocAgent</strong>: Generates documentation based on the code and context</li>
+                <li><strong>QAAgent</strong>: Runs tests and quality checks</li>
+                <li><strong>ReleaseAgent</strong>: Handles release steps, like tagging or deployment</li>
+            </ul>
+
+            <h4>Example: Documentation Agent</h4>
+
+            <pre><code class="language-python">"""
+DocAgent: Generates documentation for a given code artifact.
+"""
+
+from agentframework import Agent, TaskContext
+
+class DocAgent(Agent):
+    async def run(self, context: TaskContext):
+        # Extract code and relevant metadata from incoming context
+        code = context.get("code_snippet")
+        metadata = context.get("metadata", {})
+
+        # Simulate documentation generation logic
+        doc = self._generate_docs(code, metadata)
+        context.set("documentation", doc)
+        # Pass context to the next agent
+        await self.forward(context)
+
+    def _generate_docs(self, code, metadata):
+        """
+        Generates markdown documentation for the provided code.
+        """
+        doc_str = f"## Function Description\n\nThis function does XYZ.\n\n"
+        doc_str += f"### Code Example\n```python\n{code}\n```\n"
+        if metadata:
+            doc_str += f"\n**Metadata:** {metadata}\n"
+        return doc_str
+</code></pre>
+
+            <p><em>Comments explain each logical step and how context flows between agents.</em></p>
+
+            <h3>3. Chain Agents Together</h3>
+
+            <p>The Agent Framework allows you to define agent chains declaratively, ensuring smooth transitions according to workflow needs.</p>
+
+            <pre><code class="language-python">"""
+Defines the agent chain for end-to-end automation.
+"""
+
+from agentframework import AgentChain
+from doc_agent import DocAgent
+from qa_agent import QAAgent
+from release_agent import ReleaseAgent
+
+# Example: Assuming Copilot's result has been provided as context['code_snippet']
+chain = AgentChain()
+chain.add(DocAgent())
+chain.add(QAAgent())
+chain.add(ReleaseAgent())
+
+# Kick off the workflow with context (for demonstration)
+import asyncio
+
+async def run_pipeline():
+    init_context = {
+        "code_snippet": "def add(a, b): return a + b",
+        "metadata": {"author": "Master Chief Sparkle"}
+    }
+    await chain.run(init_context)
+
+if __name__ == "__main__":
+    asyncio.run(run_pipeline())
+</code></pre>
+
+            <ul>
+                <li>Each <code>.add()</code> places an agent in the pipeline.</li>
+                <li><code>AgentChain.run()</code> starts the event flow, carrying context from one agent to the next.</li>
+            </ul>
+
+            <h3>4. Example QA Agent</h3>
+
+            <p>Here's a basic QA agent that could run tests (this would be fleshed out for real production use):</p>
+
+            <pre><code class="language-python">from agentframework import Agent, TaskContext
+
+class QAAgent(Agent):
+    async def run(self, context: TaskContext):
+        code = context.get("code_snippet")
+        # Replace with actual code quality checks or test execution
+        test_result = self._run_tests(code)
+        context.set("qa_result", test_result)
+        await self.forward(context)
+
+    def _run_tests(self, code):
+        # Stub: Always returns success in this example
+        return {"passed": True, "details": "All tests passed."}
+</code></pre>
+
+            <h2>Integrating GitHub Copilot for Code Suggestions</h2>
+
+            <p>For the initial step (code creation or modification), you can employ GitHub Copilot's completion API or editor plugin to generate code snippets. These can then be injected as context into your agent chain, creating an effective bridge between lightweight coding assistance and end-to-end workflow automation.</p>
+
+            <pre><code class="language-python">"""
+Simulated step: Get code from Copilot, push into the Agent Chain.
+"""
+
+copilot_suggestion = "def add(a, b): return a + b" # Replace with Copilot output
+init_context = {
+    "code_snippet": copilot_suggestion,
+    "metadata": {"author": "Master Chief Sparkle"}
+}
+# Then feed into the agent chain as above.
+</code></pre>
+
+            <h2>Key Lessons for Adaptable, Resilient Workflows</h2>
+
+            <ul>
+                <li><strong>Keep agents modular:</strong> Each should have a single responsibility and define clear input/output contracts.</li>
+                <li><strong>Preserve context:</strong> Leverage the Agent Framework's context passing to avoid data loss or duplication.</li>
+                <li><strong>Design for change:</strong> Because agents are decoupled, you can swap or upgrade individual steps without breaking the pipeline.</li>
+                <li><strong>Provide smart fallbacks:</strong> Use Agent Framework's branch or error handling features to deal with failed test steps, regulatory checks, or manual interventions.</li>
+                <li><strong>Monitor and Log:</strong> Each agent should log its activity for traceability and debugging.</li>
+            </ul>
+
+            <h2>Conclusion</h2>
+
+            <p>Building multi-agent AI workflows with the Agent Framework unlocks powerful automation capabilities while keeping systems modular and maintainable. By chaining specialized agents, each focused on their own lane, you ensure clarity, context retention, and easy adaptation as your workflow needs evolve. Integrating tools like GitHub Copilot at the right points creates a seamless bridge between manual coding and orchestrated automation.</p>
+
+            <p>For deeper dives, detailed samples, or questions on your own pipelines, reach out – let's swap agentic tricks and patterns!</p>
+
+            <h2>References</h2>
+
+            <ul>
+                <li><a href="https://learn.microsoft.com/en-us/agent-framework/">Microsoft Agent Framework Docs</a></li>
+                <li><a href="https://github.com/features/copilot">GitHub Copilot</a></li>
+                <li><a href="https://foundry.microsoft.com/">Microsoft Foundry</a></li>
+            </ul>
+
+        </div>
+    </article>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; 2026 Developer FAQ. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="../script.js"></script>
+</body>
+</html>
