@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Leveling Up Automation with GitHub Copilot Agent Skills">
+    <title>Agent Skills - Developer FAQ</title>
+    <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <div class="header-content">
+                <a href="../index.html" class="back-link">← Back to Blog</a>
+                <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">
+                    <svg class="sun-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                    <svg class="moon-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <article class="container post-content">
+        <div class="post-hero">
+            <img src="../images/blue.png" 
+                 alt="Leveling Up Automation with GitHub Copilot Agent Skills">
+        </div>
+        
+        <div class="post-header">
+            <time class="post-date" datetime="2026-01-22">January 22, 2026</time>
+            <h1 class="post-title">Leveling Up Automation with GitHub Copilot Agent Skills</h1>
+        </div>
+
+        <div class="post-body">
+            <p>GitHub Copilot is already a powerful tool for developers, but with the introduction of Agent Skills, you can now teach Copilot repeatable, team-specific workflows that go far beyond its general-purpose code suggestions. In this post, I'll break down how I implemented Agent Skills for my own team, showing you the nuts and bolts, sharing example folder layouts, and providing commented Python and JavaScript samples you can use today.</p>
+
+            <h2>What Are Agent Skills?</h2>
+            <p>Agent Skills are a way to give Copilot agents "domain knowledge" and step-by-step instructions for specialized tasks. Instead of relying on broad prompts, you organize automation scripts, documentation, and config files in dedicated folders within your repository. When Copilot receives a related request, it loads everything in the folder and executes your process as defined, bringing expert context to every automation.</p>
+
+            <p>Check the <a href="https://docs.github.com/en/copilot/concepts/agents/about-agent-skills" target="_blank" rel="noopener">official docs</a> for more details.</p>
+
+            <h2>How to Structure a Skill Folder</h2>
+            <p>At the core, each Skill is a directory inside <code>.github/skills</code> in your repo. Here's a typical structure:</p>
+
+            <pre><code>.github/
+  skills/
+    onboarding/
+      README.md
+      onboarding.py
+    format_compliance/
+      README.md
+      formatter.js</code></pre>
+
+            <ul>
+                <li><strong>README.md</strong>: Contains human-readable instructions for what the Skill does.</li>
+                <li><strong>Script files (Python, JS, etc.)</strong>: Actual automation logic.</li>
+                <li><strong>Other resources</strong>: Credentials, config files, etc.</li>
+            </ul>
+
+            <h2>Example 1: Python Onboarding Skill</h2>
+            <p>Let's automate onboarding for new engineers.</p>
+
+            <p><strong>Folder structure:</strong></p>
+
+            <pre><code>.github/skills/onboarding/
+  README.md
+  onboarding.py</code></pre>
+
+            <p><strong>README.md</strong></p>
+
+            <pre><code># Onboarding Skill
+
+Automates the creation of onboarding tasks for new engineers.
+- Creates JIRA issues
+- Sends welcome email
+- Provisions cloud access</code></pre>
+
+            <p><strong>onboarding.py</strong></p>
+
+            <pre><code>"""
+Automated onboarding for new engineers using Python.
+
+This script:
+- Creates a JIRA onboarding ticket
+- Sends a welcome email
+- Provisions access using cloud API
+"""
+
+import requests
+import smtplib
+
+def create_jira_ticket(user_email, user_name):
+    # Example: Create a JIRA ticket (replace with real API/token)
+    jira_payload = {
+        "fields": {
+            "project": {"key": "ONBOARD"},
+            "summary": f"Onboard {user_name}",
+            "description": f"Set up access for {user_email}",
+            "issuetype": {"name": "Task"}
+        }
+    }
+    # For demo: print instead of sending
+    print(f"Would create JIRA ticket: {jira_payload}")
+
+def send_welcome_email(user_email):
+    # Example: Send a simple welcome email
+    # Note: For real use, configure SMTP details securely
+    print(f"Would send email to: {user_email}")
+
+def provision_access(user_email):
+    # Example: Provision cloud access (replace URL and auth)
+    # resp = requests.post("https://api.cloud.com/provision", json={"email": user_email})
+    print(f"Would provision cloud access for: {user_email}")
+
+def onboard_new_engineer(user_email, user_name):
+    create_jira_ticket(user_email, user_name)
+    send_welcome_email(user_email)
+    provision_access(user_email)
+
+# Example usage
+if __name__ == "__main__":
+    onboard_new_engineer("new.hire@example.com", "New Hire")</code></pre>
+
+            <p><strong>How Copilot Uses This:</strong></p>
+            <p>When you prompt Copilot to "onboard a new engineer," it loads this skill and executes the defined automation steps, so onboarding is consistent every time.</p>
+
+            <h2>Example 2: JavaScript Compliance Formatter Skill</h2>
+            <p>Let's automate formatting of compliance documentation.</p>
+
+            <p><strong>Folder structure:</strong></p>
+
+            <pre><code>.github/skills/format_compliance/
+  README.md
+  formatter.js</code></pre>
+
+            <p><strong>README.md</strong></p>
+
+            <pre><code># Compliance Formatter Skill
+
+Automatically formats compliance documents:
+- Ensures proper section headers and numbering
+- Normalizes terminology</code></pre>
+
+            <p><strong>formatter.js</strong></p>
+
+            <pre><code>/**
+ * Automatically formats compliance documents.
+ * - Adds section numbers
+ * - Converts headers to title case
+ * - Normalizes specific terminology
+ */
+
+const fs = require('fs');
+
+// Utility: Title Case Converter
+function toTitleCase(str) {
+    return str.replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase());
+}
+
+// Format Document Function
+function formatComplianceDoc(inputPath, outputPath) {
+    let content = fs.readFileSync(inputPath, 'utf8');
+    let lines = content.split('\n');
+    let sectionNumber = 1;
+    let formattedLines = lines.map(line => {
+        if (line.startsWith('section:')) {
+            line = `Section ${sectionNumber++}: ${toTitleCase(line.replace('section:', '').trim())}`;
+        }
+        // Normalize terminology
+        line = line.replace(/gdpr/gi, 'GDPR').replace(/pci/gi, 'PCI DSS');
+        return line;
+    });
+    fs.writeFileSync(outputPath, formattedLines.join('\n'));
+    console.log(`Compliance doc formatted: ${outputPath}`);
+}
+
+// Example usage
+formatComplianceDoc('input.txt', 'output.txt');</code></pre>
+
+            <p><strong>How Copilot Uses This:</strong></p>
+            <p>Prompt Copilot to "format compliance doc," and it will execute this script, ensuring every doc meets your standards.</p>
+
+            <h2>Tips for Organizing Skills</h2>
+            <ol>
+                <li><strong>Keep instructions clear in your README.md.</strong><br>
+                The agent uses it for context, so think of it as your process playbook.</li>
+                <li><strong>Use version control.</strong><br>
+                Scripts evolve, so update folders as your workflows change.</li>
+                <li><strong>Leverage language strengths.</strong><br>
+                Use Python for APIs and automation, JavaScript for text or file manipulation.</li>
+                <li><strong>Modularize your scripts.</strong><br>
+                Keep them focused, one skill per folder for easier updates.</li>
+            </ol>
+
+            <h2>The Payoff</h2>
+            <p>Agent Skills let me automate repetitive tasks the exact way our team prefers. Instead of describing what I want in every Copilot prompt, I simply set up the Skill folder once, then anyone can trigger the workflow and Copilot executes with the same expertise every time.</p>
+
+            <p>You can read more and see advanced features here:<br>
+            <a href="https://docs.github.com/en/copilot/concepts/agents/about-agent-skills" target="_blank" rel="noopener">https://docs.github.com/en/copilot/concepts/agents/about-agent-skills</a></p>
+
+            <p>Let me know if you need a more complex example or want to dig into error handling, secrets management, or cross-skill orchestration!</p>
+
+            <h2>Fun Technical Fact</h2>
+            <p>Copilot Agents can leverage any language or tool your repo supports, as long as the Skill folder provides instructions and executable code. Skills are a bridge between "AI suggestions" and full "automation platform," putting you in control.</p>
+
+            <p>How are you using Agent Skills? Any favorite scripts or organization tips?</p>
+
+            <p>#Copilot #GitHubCopilot #AgentSkills</p>
+        </div>
+    </article>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; 2026 Developer FAQ. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="../script.js"></script>
+</body>
+</html>
