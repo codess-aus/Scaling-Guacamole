@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="GitHub Copilot Agent Mode vs Coding Agent: Ultimate Guide with Workflows and Code Examples">
-    <title>GitHub Copilot Agent Mode vs Coding Agent - Developer FAQ</title>
+    <meta name="description" content="Deep dive comparing GitHub Copilot Coding Agent and Agent Mode with prompts, sample workflows, and code examples.">
+    <title>Deep Dive: GitHub Copilot Coding Agent vs Agent Mode - Developer FAQ</title>
     <link rel="stylesheet" href="../styles.css">
 </head>
 <body>
@@ -40,208 +40,165 @@
         
         <div class="post-header">
             <time class="post-date" datetime="2026-01-23">January 23, 2026</time>
-            <h1 class="post-title">GitHub Copilot Agent Mode vs Coding Agent: Ultimate Guide with Workflows and Code Examples</h1>
+            <h1 class="post-title">GitHub Copilot Agent Mode vs Coding Agent: Ultimate Guide with Prompts, Sample Workflows, and Code Examples</h1>
         </div>
 
         <div class="post-body">
             <p>Are you looking to supercharge your developer workflow with GitHub Copilot? Understanding the difference between <strong>GitHub Copilot Agent Mode</strong> and the <strong>Copilot Coding Agent</strong> is crucial for anyone who wants to automate code tasks efficiently, boost productivity, and streamline their software development process.</p>
 
-            <p>In this comprehensive guide, I will:</p>
+            <p>In this comprehensive guide, you will:</p>
             <ul>
-                <li>Explain the technical differences between Agent Mode and Coding Agent in GitHub Copilot</li>
-                <li>Provide step-by-step automation workflows you can use today</li>
-                <li>Include code samples and real use cases for both tools</li>
-                <li>Share best practices for getting the most out of AI-powered automation in your projects</li>
+                <li>Learn the technical differences between Agent Mode and Coding Agent in GitHub Copilot</li>
+                <li>Get step-by-step sample workflows to try yourself</li>
+                <li>See exact prompts to enter and outputs Copilot delivers</li>
+                <li>Discover best practices for AI-powered automation in your projects</li>
             </ul>
 
             <hr>
 
             <h2>What Is the GitHub Copilot Coding Agent?</h2>
 
-            <p>The <strong>GitHub Copilot Coding Agent</strong> is a focused automation tool built for developers who need targeted help. It specializes in completing single, well-defined tasks. If you ask Copilot to perform a specific action, such as writing, refactoring, or reviewing a code snippet, the Coding Agent executes that task in a secure, sandboxed environment. This ensures your codebase stays safe, with no unexpected modifications.</p>
+            <p>The <strong>Copilot Coding Agent</strong> helps you complete single, well-defined code changes. You trigger it by giving Copilot focused prompts, either by selecting code in your editor and using inline suggestions, or by describing the task in the Copilot Chat sidebar.</p>
 
-            <h3>Common Use Cases for GitHub Copilot Coding Agent</h3>
+            <h3>Example: Add Input Validation</h3>
 
-            <ul>
-                <li>Refactor existing code to follow best practices</li>
-                <li>Add input validation and error handling</li>
-                <li>Review snippets for bugs or security issues</li>
-                <li>Make small, one-off changes quickly</li>
-            </ul>
+            <p><strong>Scenario:</strong><br>
+            You want to ensure two parameters are integers in a Python function.</p>
 
-            <h3>Example: Add Input Validation with Copilot Coding Agent</h3>
+            <p><strong>How to use it:</strong></p>
+            <p><strong>You (in Copilot Chat or inline):</strong></p>
+            <pre><code>Add integer input validation to this function.</code></pre>
 
-            <p>Suppose you have a simple Python function and you want to make sure both parameters are integers.</p>
-
-            <p><strong>Before:</strong></p>
-
-            <pre><code>def add_numbers(a, b):
-    return a + b</code></pre>
-
-            <p><strong>Prompt (for Coding Agent):</strong><br>
-            Add integer input validation.</p>
-
-            <p><strong>After:</strong></p>
-
-            <pre><code>def add_numbers(a, b):
+            <p><strong>Copilot returns (suggested code):</strong></p>
+            <pre><code class="language-python">def add_numbers(a, b):
     # Ensure both parameters are integers
     if not isinstance(a, int) or not isinstance(b, int):
         raise ValueError("Both parameters must be integers")
     return a + b</code></pre>
 
-            <p><strong>Tip:</strong><br>
-            Use targeted prompts for focused one-step automations. The Coding Agent is perfect for precise code improvements.</p>
+            <p>You can review and accept this change directly if using inline suggestions, or copy it from the chat response into your file.</p>
 
             <hr>
 
             <h2>What Is GitHub Copilot Agent Mode?</h2>
 
-            <p><strong>GitHub Copilot Agent Mode</strong> is a powerful feature for developers and engineering teams who want to automate complex workflows, coordinate multiple Coding Agents, and manage end-to-end development processes. Think of Agent Mode as an orchestration layer, allowing Copilot to link multiple coding tasks, switch contexts, and execute multi-step automations that span files, repositories, and tools.</p>
+            <p><strong>Agent Mode</strong> lets Copilot coordinate multi-step coding workflows and context-aware automations. You interact with it via the Copilot Chat window in Codespaces or VS Code.</p>
 
-            <h3>Key Features of Agent Mode</h3>
-
-            <ul>
-                <li>Automates entire development workflows, not just single tasks</li>
-                <li>Chains multiple Coding Agents or Skills together</li>
-                <li>Handles context management across steps, tools, and files</li>
-                <li>Perfect for onboarding, refactoring, testing, or release automation</li>
-            </ul>
-
-            <h3>Example Workflow: Python Project Refactoring with Agent Mode</h3>
-
-            <p>Imagine you need to:</p>
-
-            <ol>
-                <li>Identify all functions missing docstrings</li>
-                <li>Insert standardized docstrings</li>
-                <li>Refactor functions longer than 30 lines</li>
-                <li>Generate a refactoring report for documentation</li>
-            </ol>
-
-            <h4>Step 1: Find Functions Missing Docstrings</h4>
-
-            <pre><code>import os
-import ast
-
-def find_functions_without_docstrings(path):
-    missing = []
-    for root, _, files in os.walk(path):
-        for name in files:
-            if name.endswith('.py'):
-                file_path = os.path.join(root, name)
-                with open(file_path, 'r') as f:
-                    content = f.read()
-                tree = ast.parse(content)
-                for node in ast.walk(tree):
-                    if isinstance(node, ast.FunctionDef) and ast.get_docstring(node) is None:
-                        missing.append((file_path, node.name, node.lineno))
-    return missing</code></pre>
-
-            <h4>Step 2: Insert Standardized Docstrings</h4>
-
-            <pre><code>def add_docstring_to_function(source, func_name):
-    # Insert a basic docstring template at the top of the function
-    return source  # Implementation detail depends on parsing and string replacement</code></pre>
-
-            <h4>Step 3: Refactor Long Functions</h4>
-
-            <pre><code>def refactor_if_too_long(fn_source, max_length=30):
-    # Check function length, split into smaller functions if too long
-    pass  # Real implementation would use AST and string rewriting</code></pre>
-
-            <h4>Step 4: Generate a Markdown Refactoring Report</h4>
-
-            <pre><code># Refactoring Summary
-
-- Functions updated with docstrings: 15
-- Functions refactored for length: 4
-
-_For full details, review refactoring_report.json_</code></pre>
-
-            <p><strong>Tip:</strong><br>
-            Leverage Agent Mode to scale up automation and maximize developer productivity. Automated multi-step workflows save time and reduce manual effort.</p>
+            <p>You do <strong>not</strong> toggle Agent Mode on manually. You activate it by issuing broad, workflow-style prompts. Copilot will explain what it’s doing, break down the steps, and may even ask for your approval at key points.</p>
 
             <hr>
 
-            <h2>Combining GitHub Copilot Agent Mode and Coding Agent</h2>
+            <h2>Sample Workflow: Automated Python Project Refactoring Using Copilot Chat</h2>
 
-            <p><strong>Best Practice:</strong><br>
-            Start with Coding Agent for small, standalone coding tasks. Use Agent Mode to coordinate several Coding Agents for advanced tasks like refactoring, automated testing, onboarding, or CI/CD pipeline automation.</p>
+            <p>Let’s illustrate with a practical multi-step use case, including exact prompts and responses. All interactions below happen in the Copilot Chat window in VS Code or Codespaces.</p>
 
-            <h3>Real-World Use Case: Automated Pull Request (PR) Cleanup</h3>
+            <h3>Step 1: Find All Python Functions Missing Docstrings</h3>
+            <p><strong>You type:</strong></p>
+            <pre><code>Find all functions in this Python project that are missing docstrings.</code></pre>
+            <p><strong>Copilot responds:</strong></p>
+            <pre><code>I found 12 functions without docstrings:
+- src/core/user.py: add_user (line 10)
+- src/core/data.py: fetch_data (line 34)
+...
+Do you want me to add standardized docstrings for these functions?</code></pre>
 
-            <p>With Agent Mode, you can:</p>
+            <h3>Step 2: Add Standardized Docstrings</h3>
+            <p><strong>You type:</strong></p>
+            <pre><code>Yes, add standardized docstrings to all of them.</code></pre>
+            <p><strong>Copilot responds:</strong></p>
+            <pre><code>Added docstrings to:
+- src/core/user.py: add_user
+- src/core/data.py: fetch_data
+...
+Here is an example of the new docstring I inserted:
 
-            <ol>
-                <li>Detect stale PRs</li>
-                <li>Assign a Coding Agent to check merge conflicts</li>
-                <li>Assign another Coding Agent to auto-generate summary comments</li>
-                <li>Notify your team via Slack, Teams, or email</li>
-            </ol>
+def add_user(user):
+    """
+    Adds a new user.
 
-            <p><strong>Agent Mode is the orchestrator, Coding Agents are the specialists.</strong></p>
+    Args:
+        user (User): The user object to add.
+
+    Returns:
+        bool: True if successful, False otherwise.
+    """
+    ...
+
+The changes are staged in your editor. Would you like to review them before proceeding to the next step?</code></pre>
+
+            <h3>Step 3: Refactor Functions Longer Than 30 Lines</h3>
+            <p><strong>You type:</strong></p>
+            <pre><code>Refactor any function over 30 lines into smaller functions.</code></pre>
+            <p><strong>Copilot responds:</strong></p>
+            <pre><code>Refactored 3 functions that were longer than 30 lines:
+- src/core/data.py: fetch_data split into fetch_data and parse_results
+...
+Review the updated functions in your editor. Should I generate a summary report of changes?</code></pre>
+
+            <h3>Step 4: Generate a Markdown Report</h3>
+            <p><strong>You type:</strong></p>
+            <pre><code>Yes, generate a markdown report summarizing all changes.</code></pre>
+            <p><strong>Copilot responds:</strong></p>
+            <pre><code>Generated report summary.md:
+
+# Refactoring Summary
+
+- Functions updated with docstrings: 12
+- Functions refactored for length: 3
+
+For details, see the modified files in your project.</code></pre>
 
             <hr>
 
-            <h2>How to Access and Use Coding Agents and Agent Mode</h2>
-
-            <p>If you're wondering where to find these features or how to activate them:</p>
-
+            <h2>Are You Coding Inline or in the Chat Window?</h2>
             <ul>
-                <li>In Codespaces or VS Code with Copilot enabled:<br>
-                    <ul>
-                        <li>Open the Copilot Chat sidebar or use the command palette to bring up Copilot.</li>
-                        <li>Coding Agents are triggered by specific, focused prompts.</li>
-                        <li>Agent Mode is triggered by natural language prompts requesting multi-step automation or workflows.</li>
-                        <li>There is no separate toggle or dropdown as of today; everything is prompt-driven.</li>
-                        <li>Copilot will indicate (with step-by-step output or summaries) when it is running workflows that leverage Agent Mode.</li>
-                    </ul>
-                </li>
-
-                <li>Review and approve changes:<br>
-                    Copilot always lets you see the proposed edits. You can accept, edit, or reject before anything is committed.</li>
+                <li><strong>Coding Agent:</strong> Use Copilot inline or in chat for fast, one-off changes.</li>
+                <li><strong>Agent Mode:</strong> Use Copilot Chat for multi-step workflows; Copilot walks through steps and may ask for approvals.</li>
             </ul>
 
-            <p>Check out <a href="https://docs.github.com/en/copilot/github-copilot-chat/using-github-copilot-chat" target="_blank" rel="noopener">Copilot Chat documentation</a> for interface visuals and examples.</p>
+            <hr>
+
+            <h2>How to Access Copilot Chat and Use These Features</h2>
+            <ol>
+                <li>Open Codespaces or VS Code with Copilot enabled.</li>
+                <li>Open the Copilot Chat panel via the sidebar icon or command palette.</li>
+                <li>Type prompts as shown above. Use action-focused requests for single tasks, broad workflow prompts for multi-step automation.</li>
+                <li>Review Copilot’s replies—accept, edit, or ask follow-up questions as you go.</li>
+            </ol>
+
+            <p>No manual toggling is required. Copilot interprets your intent from your prompt and chooses the best approach, keeping you in control at all times.</p>
 
             <hr>
 
             <h2>Frequently Asked Questions</h2>
 
             <h3>When should I use GitHub Copilot Coding Agent?</h3>
+            <p>Use Coding Agent for simple, direct automation, like fixing bugs, adding small features, or reviewing code in one shot. It works both inline and in Copilot Chat.</p>
 
-            <p>Use Coding Agent for simple, direct automation, like fixing bugs, adding small features, or reviewing code in one shot.</p>
-
-            <h3>When should I activate GitHub Copilot Agent Mode?</h3>
-
-            <p>Agent Mode is used to automate whole workflows, coordinate multiple tasks, and manage processes across multiple files or repositories.</p>
+            <h3>When should I use GitHub Copilot Agent Mode?</h3>
+            <p>Use Agent Mode when you want Copilot to automate workflows consisting of multiple coordinated steps or actions that may involve several files. This is only available through Copilot Chat.</p>
 
             <h3>How does Copilot decide which mode to use? Do I choose?</h3>
-
-            <p>You do not manually switch between Coding Agents and Agent Mode using a toggle or menu.<br>
-            Copilot automatically selects the appropriate mode based on your prompt.</p>
-
+            <p>You do not manually switch between Coding Agents and Agent Mode with a toggle. Copilot automatically selects the right mode based on your prompt.</p>
             <ul>
-                <li>If your request is focused and asks for a single, targeted task ("Refactor this function", "Add a null check") Copilot uses the Coding Agent to complete the task quickly and safely.</li>
-                <li>When you ask for a multi-step workflow or project-wide process ("Find all Python functions without docstrings, add default docstrings, and create a report") Copilot automatically enters Agent Mode, orchestrating multiple agents or steps.</li>
+                <li>If you ask for a focused, targeted task, Copilot uses the Coding Agent.</li>
+                <li>If you ask for a multi-step process or broader workflow, Copilot uses Agent Mode and orchestrates each step for you through chat.</li>
             </ul>
-
-            <p>You control the workflow through your prompt. You do not click a toggle, and you always review and approve proposed changes before they are made.</p>
-
-            <p><strong>Interesting fact:</strong> As Copilot gets smarter, its ability to interpret your intentions and select the right mode will continually improve. You focus on what you need done and Copilot chooses the best path automatically.</p>
+            <p>You always review and approve changes before anything is modified in your project.</p>
 
             <h3>Do I lose control with automation?</h3>
-
-            <p>You always keep full control. Agent Mode coordinates tasks, but you decide when and how each code change is applied.</p>
+            <p>You keep full control. Copilot proposes changes for your review—you accept, edit, or reject before they apply.</p>
 
             <hr>
 
             <h2>Conclusion</h2>
-
-            <p>Now you know the difference between <strong>GitHub Copilot Agent Mode</strong> and <strong>Coding Agent</strong>, and how Copilot decides which to use based on your prompt. Start with precise, task-based requests for targeted automation. Describe multi-step processes or project-wide goals for intelligent workflow automation via Agent Mode. Always review the results before integrating them, and watch Copilot's abilities grow even smarter over time.</p>
+            <p>Now you know the difference between <strong>GitHub Copilot Agent Mode</strong> and <strong>Coding Agent</strong>, how to prompt for each, and how Copilot delivers step-by-step automation in your preferred workflow. Begin with clear, actionable requests for the fastest results, and lean on Copilot Chat for larger, project-wide improvements.</p>
 
             <p><strong>Want to learn more?</strong><br>
-            Check the <a href="https://msft.it/61104tsijg" target="_blank" rel="noopener">Official Copilot docs</a> and follow the blog for more developer productivity tips.</p>
+            See the <a href="https://msft.it/61104tsijg" target="_blank" rel="noopener">Official Copilot docs</a> for detailed guides.</p>
+
+            <p><strong>Interesting Fact:</strong><br>
+            With Agent Mode, Copilot manages a digital team of Coding Agents and Skills, giving you as much workflow control as you need—so you spend less time on repetitive tasks and more time building what matters.</p>
 
             <p>#GitHubCopilot #CopilotAgentMode #CopilotCodingAgent #DeveloperProductivity #Automation #AIDevelopment #WorkflowAutomation #PythonExamples #DevOps #CodeRefactoring</p>
 
