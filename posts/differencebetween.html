@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Deep Dive: GitHub Copilot Coding Agent vs. Agent Mode - Understanding Workflow Automation, Use Cases, and Technical Implementation">
+    <title>Deep Dive: GitHub Copilot Coding Agent vs. Agent Mode - Developer FAQ</title>
+    <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <div class="header-content">
+                <a href="../index.html" class="back-link">← Back to Blog</a>
+                <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">
+                    <svg class="sun-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                    <svg class="moon-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <article class="container post-content">
+        <div class="post-hero">
+            <img src="../images/differencebetween.png" 
+                 alt="Deep Dive: GitHub Copilot Coding Agent vs. Agent Mode">
+        </div>
+        
+        <div class="post-header">
+            <time class="post-date" datetime="2026-01-23">January 23, 2026</time>
+            <h1 class="post-title">Deep Dive: GitHub Copilot Coding Agent vs. Agent Mode</h1>
+            <p class="post-subtitle">Understanding Workflow Automation, Use Cases, and Technical Implementation</p>
+        </div>
+
+        <div class="post-body">
+            <p>GitHub Copilot's ecosystem is evolving fast, offering developers new ways to automate coding tasks and orchestrate workflows. Two core features at the heart of this are the <strong>Copilot Coding Agent</strong> and <strong>Agent Mode</strong>. Many developers mix these up or only scratch their surface potential. In this post, I will break down the technical differences, show real examples, and walk through how to combine both for maximum velocity.</p>
+
+            <hr>
+
+            <h2>What Is the Copilot Coding Agent?</h2>
+
+            <p><strong>Coding Agent</strong> in GitHub Copilot is a focused automation tool. It reacts to direct prompts and handles single, well-defined tasks such as:</p>
+
+            <ul>
+                <li>Refactoring a function</li>
+                <li>Adding validation to user inputs</li>
+                <li>Reviewing a code snippet for bugs</li>
+            </ul>
+
+            <p>It runs in a secure sandbox, which means your base branch and code are not touched until you approve changes.</p>
+
+            <h3>Use Case Example: Automated Input Validation</h3>
+
+            <p>Let's say you have a Python function that just returns the sum of two numbers, but you want to ensure both arguments are integers.</p>
+
+            <p><strong>Original Code</strong></p>
+
+            <pre><code>def add_two_numbers(a, b):
+    return a + b</code></pre>
+
+            <p><strong>Copilot Coding Agent Prompt</strong><br>
+            "Add input validation so that only integers are accepted."</p>
+
+            <p><strong>Agent-Generated Refactored Code</strong></p>
+
+            <pre><code>def add_two_numbers(a, b):
+    # Check if both arguments are integers
+    if not isinstance(a, int) or not isinstance(b, int):
+        raise ValueError("Both arguments must be integers")
+    return a + b</code></pre>
+
+            <p><strong>Why This Matters:</strong><br>
+            You get a targeted fix. The Coding Agent does not wander off into other files or suggest architectural changes. It is surgical automation.</p>
+
+            <hr>
+
+            <h2>What Is Agent Mode?</h2>
+
+            <p><strong>Agent Mode</strong> moves beyond one-off fixes. It allows Copilot to chain tasks, switch context between files, and orchestrate <strong>multiple Coding Agents or Skills</strong>. Think of it as a workflow engine.</p>
+
+            <ul>
+                <li>Orchestrates complex, multi-step flows</li>
+                <li>Can touch various files, run tools, interact across repositories</li>
+                <li>Manages context and state for the entire session</li>
+            </ul>
+
+            <h3>Example Workflow: Automated Python Project Refactoring</h3>
+
+            <p>Suppose you want to:</p>
+
+            <ol>
+                <li>Find all functions in the project missing docstrings</li>
+                <li>Insert standardized docstrings</li>
+                <li>Refactor any functions longer than 30 lines</li>
+                <li>Generate a summary markdown report</li>
+            </ol>
+
+            <h4>Step 1: Find All Functions Missing Docstrings</h4>
+
+            <pre><code>import os
+import ast
+
+def find_functions_missing_docstrings(path):
+    functions = []
+    for dirpath, _, files in os.walk(path):
+        for filename in files:
+            if filename.endswith('.py'):
+                file_path = os.path.join(dirpath, filename)
+                with open(file_path, 'r') as f:
+                    source = f.read()
+                tree = ast.parse(source)
+                for node in ast.walk(tree):
+                    if isinstance(node, ast.FunctionDef):
+                        # Check for missing docstring
+                        if ast.get_docstring(node) is None:
+                            functions.append((file_path, node.name, node.lineno))
+    return functions</code></pre>
+
+            <h4>Step 2: Insert Standardized Docstrings</h4>
+
+            <p>Agent Mode could chain this to a Coding Agent that inserts:</p>
+
+            <pre><code>def example_func(a, b):
+    """
+    Example function.
+
+    Args:
+        a (type): Description.
+        b (type): Description.
+
+    Returns:
+        type: Description.
+    """
+    # Function code...</code></pre>
+
+            <h4>Step 3: Refactor Long Functions</h4>
+
+            <pre><code>def refactor_long_functions(source_code):
+    # Analyze function length and refactor (splitting, extracting methods, etc.)
+    pass
+# Typically delegated to a Coding Agent for precise, context-aware refactoring</code></pre>
+
+            <h4>Step 4: Generate Markdown Report</h4>
+
+            <p>After all changes, Agent Mode can create a report:</p>
+
+            <pre><code># Refactoring Results
+
+- Functions with added docstrings: 12
+- Functions refactored due to length: 3
+
+See details in `refactor_results.json`.</code></pre>
+
+            <p><strong>Key Point:</strong><br>
+            Only Agent Mode can chain these steps together, remember context between them, and ensure the handoff from one agent (docstring generator) to the next (refactor agent) is seamless.</p>
+
+            <hr>
+
+            <h2>When to Use Each, and How to Combine Them</h2>
+
+            <ul>
+                <li><strong>Coding Agent:</strong>
+                    <ul>
+                        <li>Use for precise, single-task automation needing speed and accuracy</li>
+                        <li>Tasks like bug fixes, adding validations, one-off reviews</li>
+                    </ul>
+                </li>
+                <li><strong>Agent Mode:</strong>
+                    <ul>
+                        <li>Use for automating a process: onboarding, refactoring, testing improvements</li>
+                        <li>Agent Mode delegates parts to specialized Coding Agents, manages state, and handles context switches</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h3>Combined Example: Automated PR Cleanup</h3>
+
+            <p>Agent Mode can:</p>
+
+            <ol>
+                <li>Find stale branches</li>
+                <li>Use Coding Agents to check for merge conflicts</li>
+                <li>Use another Coding Agent to create summary PRs</li>
+                <li>Notify team members with results (via Slack, Teams, etc.)</li>
+            </ol>
+
+            <p><strong>Agent Mode orchestrates; Coding Agents execute each technical step.</strong></p>
+
+            <hr>
+
+            <h2>Best Practices</h2>
+
+            <ul>
+                <li><strong>Start simple:</strong> Use Coding Agent for small wins</li>
+                <li><strong>Scale up:</strong> Use Agent Mode for complex, repetitive processes</li>
+                <li><strong>Keep control:</strong> Always review agent output before merging changes</li>
+                <li><strong>Precision:</strong> In Agent Mode, assign the right task to the right Coding Agent</li>
+            </ul>
+
+            <hr>
+
+            <h2>Conclusion</h2>
+
+            <p>GitHub Copilot Coding Agent is your reliable sniper for precise requests. Agent Mode is your workflow conductor, orchestrating entire sequences and connecting specialized agents.</p>
+
+            <p><strong>Tip:</strong> Agent Mode can coordinate dozens of digital helpers for you, but you keep control by choosing which agent does what at every stage.</p>
+
+            <p><strong>Learn More:</strong> <a href="https://msft.it/61104tsijg" target="_blank" rel="noopener">Official docs</a></p>
+
+            <p>#GitHubCopilot #CodingAgent #AgentMode #Automation #DeveloperWorkflow #Productivity</p>
+
+        </div>
+    </article>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; 2026 Developer FAQ. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="../script.js"></script>
+</body>
+</html>
