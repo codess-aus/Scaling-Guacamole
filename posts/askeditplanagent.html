@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A deep dive into GitHub Copilot modes: Agent, Ask, Edit, Plan, and AIAgentExpert">
+    <title>A deep dive into GitHub Copilot modes: Agent, Ask, Edit, Plan, and AIAgentExpert - Developer FAQ</title>
+    <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <div class="header-content">
+                <a href="../index.html" class="back-link">← Back to Blog</a>
+                <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">
+                    <svg class="sun-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                    <svg class="moon-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <article class="container post-content">
+        <div class="post-hero">
+            <img src="../images/askeditplan.png" 
+                 alt="Blog post hero image">
+        </div>
+        
+        <div class="post-header">
+            <time class="post-date" datetime="2026-01-29">January 29, 2026</time>
+            <h1 class="post-title">A deep dive into GitHub Copilot modes: Agent, Ask, Edit, Plan, and AIAgentExpert</h1>
+        </div>
+
+        <div class="post-body">
+            <p>GitHub Copilot is no longer "just autocomplete." Modern Copilot experiences expose multiple modes that deliberately change how Copilot behaves: how much context it considers, how it balances explanation vs action, and how autonomous it is allowed to be.</p>
+
+            <p>These labels can vary a bit depending on where you use Copilot (VS Code, Visual Studio, JetBrains, GitHub.com), but the intent is consistent.</p>
+
+            <h2>The autonomy spectrum</h2>
+
+            <p>A useful mental model is a spectrum from "explain only" to "take the wheel":</p>
+
+            <ul>
+                <li><strong>Ask</strong>: explain and clarify, minimal action</li>
+                <li><strong>Edit</strong>: apply a specific change you describe</li>
+                <li><strong>Plan</strong>: break down work, identify risk, define steps and acceptance criteria</li>
+                <li><strong>Agent</strong>: execute toward an outcome across multiple steps and files</li>
+                <li><strong>AIAgentExpert</strong>: like Agent, but optimized for deeper reasoning and higher verification on complex or risky work</li>
+            </ul>
+
+            <p>A quick decision heuristic:</p>
+
+            <ul>
+                <li>If you are uncertain what is going on: choose <strong>Ask</strong></li>
+                <li>If you know exactly what you want changed: choose <strong>Edit</strong></li>
+                <li>If you need sequencing, risk reduction, or team alignment: choose <strong>Plan</strong></li>
+                <li>If you want end to end implementation with repo discovery: choose <strong>Agent</strong></li>
+                <li>If the cost of being wrong is high: choose <strong>AIAgentExpert</strong></li>
+            </ul>
+
+            <h2>Ask mode: understand the system, reduce ambiguity</h2>
+
+            <h3>What it optimizes for</h3>
+            <p>Ask mode is optimized for comprehension and decision support. It is where you interrogate the code, the architecture, and the tradeoffs before changing anything.</p>
+
+            <h3>When to use it</h3>
+            <p>Use Ask when:</p>
+            <ul>
+                <li>you are onboarding to an unfamiliar codebase</li>
+                <li>you need an explanation of what code does and why it exists</li>
+                <li>you want to compare alternatives before choosing an approach</li>
+                <li>you are debugging conceptually (what could cause this symptom?)</li>
+            </ul>
+
+            <h3>Example prompts</h3>
+            <ul>
+                <li>"Explain what this function does and list edge cases."</li>
+                <li>"Why might this be causing a race condition?"</li>
+                <li>"What's the difference between these two caching strategies?"</li>
+            </ul>
+
+            <h3>Sample: asking about a code snippet</h3>
+
+            <pre><code>def slugify(name: str) -> str:
+    return "".join(c.lower() if c.isalnum() else "-" for c in name).strip("-")</code></pre>
+
+            <p>Good Ask prompt:</p>
+            <ul>
+                <li>"Explain what <code>slugify</code> does, list edge cases (unicode, multiple dashes), and suggest improvements without changing the signature."</li>
+            </ul>
+
+            <p><strong>Interesting fact:</strong> Ask mode is a quality multiplier because it helps you surface constraints. Most "bad AI edits" happen because constraints were never stated.</p>
+
+            <h2>Edit mode: controlled, scoped code changes</h2>
+
+            <h3>What it optimizes for</h3>
+            <p>Edit mode is optimized for predictability. You already know what you want and you want Copilot to apply it quickly.</p>
+
+            <h3>When to use it</h3>
+            <p>Use Edit when:</p>
+            <ul>
+                <li>the change is localized (single function, file, or small set of files)</li>
+                <li>the work is mechanical (rename, convert style, add validation)</li>
+                <li>you want minimal architectural improvisation</li>
+            </ul>
+
+            <h3>Example prompts</h3>
+            <ul>
+                <li>"Convert this callback based function to <code>async/await</code>."</li>
+                <li>"Add input validation. Return 400 with a JSON error if invalid."</li>
+                <li>"Replace deprecated API usage with the current stable equivalent."</li>
+            </ul>
+
+            <h3>Sample: Edit request with clear constraints</h3>
+
+            <p>Before:</p>
+
+            <pre><code>function parsePort(value) {
+  const n = parseInt(value, 10);
+  if (Number.isNaN(n)) return 3000;
+  return n;
+}</code></pre>
+
+            <p>Great Edit prompt:</p>
+            <ul>
+                <li>"Edit <code>parsePort</code> to reject ports outside 1..65535, return default 3000, and add comments explaining why."</li>
+            </ul>
+
+            <p>After (example output you might want):</p>
+
+            <pre><code>function parsePort(value) {
+  // Parse using base 10 to avoid surprises like "08" being treated as octal in older environments.
+  const n = Number.parseInt(value, 10);
+
+  // Default when value is missing or not a number.
+  if (Number.isNaN(n)) return 3000;
+
+  // Ports are valid only in the 1..65535 range.
+  if (n < 1 || n > 65535) return 3000;
+
+  return n;
+}</code></pre>
+
+            <p><strong>Interesting fact:</strong> Edit mode tends to be best for the "boring engineering" that makes systems reliable: validation, consistency, and small refactors that preserve behavior.</p>
+
+            <h2>Plan mode: de risk big changes before writing code</h2>
+
+            <h3>What it optimizes for</h3>
+            <p>Plan mode is optimized for sequencing, risk management, and clarity. Think mini design doc: goals, non goals, steps, and how you will validate.</p>
+
+            <h3>When to use it</h3>
+            <p>Use Plan when:</p>
+            <ul>
+                <li>the task is large or ambiguous</li>
+                <li>you need to coordinate work across components</li>
+                <li>you want acceptance criteria before implementation</li>
+                <li>you want rollout and rollback steps</li>
+            </ul>
+
+            <h3>Example prompts</h3>
+            <ul>
+                <li>"Plan a migration from REST to GraphQL with minimal client disruption."</li>
+                <li>"Plan how to add rate limiting with feature flags and observability."</li>
+                <li>"Break this refactor into incremental steps with tests."</li>
+            </ul>
+
+            <h3>Sample Plan structure you should expect</h3>
+            <ul>
+                <li><strong>Goals</strong> and <strong>non goals</strong></li>
+                <li><strong>Assumptions</strong> and <strong>unknowns</strong></li>
+                <li><strong>Step by step changes</strong> with dependencies</li>
+                <li><strong>Test strategy</strong></li>
+                <li><strong>Rollout plan</strong> (feature flags, canary, progressive delivery)</li>
+                <li><strong>Rollback plan</strong></li>
+                <li><strong>Observability</strong> (metrics, logs, tracing)</li>
+            </ul>
+
+            <p><strong>Interesting fact:</strong> Planning reduces overall cycle time because it prevents expensive backtracking once code has already been changed.</p>
+
+            <h2>Agent mode: outcome driven multi step execution</h2>
+
+            <h3>What it optimizes for</h3>
+            <p>Agent mode is optimized for reaching an outcome, not just producing a snippet. It often involves repo exploration, multi file edits, updating tests, and iterating.</p>
+
+            <h3>When to use it</h3>
+            <p>Use Agent when:</p>
+            <ul>
+                <li>you want end to end completion ("make X work")</li>
+                <li>the change spans multiple files</li>
+                <li>you need discovery ("where is this implemented?")</li>
+                <li>you want Copilot to iterate toward green tests / passing CI</li>
+            </ul>
+
+            <h3>Example prompts</h3>
+            <ul>
+                <li>"Add OAuth login end to end: UI, backend, callback handling, tests."</li>
+                <li>"Refactor this module to remove duplication and update unit tests."</li>
+                <li>"Investigate why CI fails on Windows and propose a fix."</li>
+            </ul>
+
+            <h3>Sample: defining acceptance criteria for an Agent</h3>
+            <p>A strong Agent prompt includes:</p>
+
+            <ul>
+                <li>"Done means: tests pass, lint passes, no breaking API changes, docs updated."</li>
+                <li>"Do not: rename public endpoints, change database schema, or upgrade major versions."</li>
+            </ul>
+
+            <p><strong>Interesting fact:</strong> Agent effectiveness correlates with feedback loops. Repos with good tests, linting, and type checking make agentic work safer and faster.</p>
+
+            <h2>AIAgentExpert: deeper reasoning and higher verification</h2>
+
+            <h3>What it optimizes for</h3>
+            <p>AIAgentExpert is typically the more thorough version of Agent mode. It biases toward correctness, edge cases, and validation.</p>
+
+            <h3>When to use it</h3>
+            <p>Use AIAgentExpert for:</p>
+            <ul>
+                <li>security sensitive changes (auth, sessions, permissions)</li>
+                <li>performance and scalability work</li>
+                <li>intermittent bugs where root cause is unclear</li>
+                <li>high impact refactors</li>
+            </ul>
+
+            <h3>Example prompts</h3>
+            <ul>
+                <li>"Audit authentication and session handling for common vulnerabilities."</li>
+                <li>"Find root cause of this intermittent deadlock and propose a minimal fix."</li>
+                <li>"Reduce p95 latency by 30 percent and justify tradeoffs."</li>
+            </ul>
+
+            <p><strong>Interesting fact:</strong> Hard debugging is hypothesis elimination. Expert style agents tend to propose structured investigation loops: reproduce, isolate, measure, change one variable, validate.</p>
+
+            <h2>Combining modes in real workflows</h2>
+
+            <h3>Workflow: diagnosing and fixing a production bug</h3>
+            <ol>
+                <li><strong>Ask</strong>: explain the stack trace and likely causes</li>
+                <li><strong>Plan</strong>: propose an investigation plan and acceptance criteria</li>
+                <li><strong>AIAgentExpert</strong>: implement a minimal fix and regression test</li>
+                <li><strong>Edit</strong>: polish naming, messages, and consistency</li>
+            </ol>
+
+            <h3>Workflow: adding a feature safely</h3>
+            <ol>
+                <li><strong>Plan</strong>: define API, rollout, tests, and constraints</li>
+                <li><strong>Agent</strong>: implement across backend, frontend, and tests</li>
+                <li><strong>Edit</strong>: final cleanup and readability improvements</li>
+                <li><strong>Ask</strong>: sanity check edge cases and failure modes</li>
+            </ol>
+
+            <h2>Common failure modes and how to avoid them</h2>
+
+            <ul>
+                <li><strong>Skipping constraints</strong>: state "keep behavior unchanged" if that matters.</li>
+                <li><strong>No validation loop</strong>: always ask for tests or commands to run.</li>
+                <li><strong>Over broad prompts</strong>: "make it better" invites scope creep. Define "done."</li>
+                <li><strong>Silent assumptions</strong>: spell out version constraints, compatibility needs, and performance targets.</li>
+            </ul>
+
+        </div>
+    </article>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; 2026 Developer FAQ. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="../script.js"></script>
+</body>
+</html>
