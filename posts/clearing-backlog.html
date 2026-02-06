@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A deep technical playbook for clearing a stubborn backlog using GitHub Copilot coding agent, with issue templates, instruction patterns, and Python and JavaScript examples.">
+    <title>Clearing a stubborn backlog with GitHub Copilot coding agent</title>
+    <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <div class="header-content">
+                <a href="../index.html" class="back-link">← Back to Blog</a>
+                <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">
+                    <svg class="sun-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                    <svg class="moon-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <article class="container post-content">
+        <div class="post-hero">
+            <img src="../images/codingagents2.png"
+                 alt="Backlog clearing workflow with coding agents">
+        </div>
+
+        <div class="post-header">
+            <time class="post-date" datetime="2026-02-06">February 6, 2026</time>
+            <h1 class="post-title">Clearing a stubborn backlog with GitHub Copilot coding agent</h1>
+        </div>
+
+        <div class="post-body">
+            <p>
+                Backlogs get stuck for predictable technical reasons: work items are underspecified, hard to test, risky to review,
+                and tangled across systems. GitHub Copilot coding agent can help you convert that backlog into merged pull requests,
+                but only if you treat issue writing and instructions as engineering artifacts, not admin work.
+            </p>
+
+            <p>
+                This guide is a hands-on playbook: how to structure agent-ready issues, how to create instruction layers that compound over time,
+                and how to design small atomic tasks that produce reviewable PRs. Examples use Python and JavaScript.
+            </p>
+
+            <h2>1) Mental model: agents are deterministic executors, not product thinkers</h2>
+            <p>
+                A human engineer can infer missing context, ask questions, and negotiate scope. A coding agent will try to complete what you asked,
+                even if it has to guess. Your job is to remove guessing.
+            </p>
+
+            <p>
+                The fastest way to do that is to provide:
+            </p>
+
+            <ul>
+                <li><strong>What</strong> to change (file paths, modules, components)</li>
+                <li><strong>Why</strong> (user impact, incident link, performance goal)</li>
+                <li><strong>How</strong> (preferred patterns, examples, constraints)</li>
+                <li><strong>How to validate</strong> (tests, commands, acceptance criteria)</li>
+            </ul>
+
+            <p>
+                Interesting fact: many “AI output quality” problems in software teams are actually requirements quality problems.
+                The agent simply makes missing requirements more obvious.
+            </p>
+
+            <h2>2) The agent-ready issue spec (copy and paste template)</h2>
+            <p>
+                Use this template for tech debt, DevOps toil, reliability improvements, and small features.
+                It is written like you would hand a task to someone brand new to the codebase.
+            </p>
+
+            <pre><code>## Goal
+Describe the user or operational outcome (1 to 3 sentences).
+
+## Context
+- Why this matters now (incident link, customer impact, cost, time saved)
+- Where in the codebase this lives (paths, services, packages)
+- Any constraints (backwards compatibility, latency budget, security requirements)
+
+## Current Behavior
+Describe what happens today. Include logs, screenshots, or error messages if relevant.
+
+## Desired Behavior
+Describe what should happen after the change.
+
+## Implementation Notes (optional but powerful)
+- Preferred libraries or patterns to use
+- Specific functions or modules to modify
+- Example code style to follow (paste a small snippet)
+
+## Acceptance Criteria
+- [ ] Unit tests added or updated
+- [ ] Existing test suite passes (include command)
+- [ ] Lint or format passes (include command)
+- [ ] Observability updated if relevant (logs, metrics, traces)
+- [ ] Docs updated if relevant
+
+## How to Test
+Step-by-step reproduction and validation steps.</code></pre>
+
+            <p>
+                Why this works: it encodes the same context you would give a new hire.
+                The agent can explore the repo, but it cannot read your mind about constraints, validation, or conventions.
+            </p>
+
+            <h2>3) Writing titles that scale when you have 10 PRs in flight</h2>
+            <p>
+                When you assign many issues, you will review many PRs. Use a title format that makes triage easy.
+            </p>
+
+            <p><strong>Pattern:</strong> <code>&lt;area&gt;: &lt;change&gt; (&lt;impact&gt;)</code></p>
+
+            <ul>
+                <li><code>api: validate payload for POST /users (prevent 500s)</code></li>
+                <li><code>ci: cache pip dependencies (cut build time)</code></li>
+                <li><code>terraform: add s3 lifecycle retention policy (cost control)</code></li>
+            </ul>
+
+            <p>
+                This is not cosmetic. It is operational hygiene for PR review throughput.
+            </p>
+
+            <h2>4) Provide golden path examples, not vague guidance</h2>
+            <p>
+                “Add robust error handling” is ambiguous. A small example removes ambiguity.
+                Paste a snippet in the issue that shows the exact shape you want.
+            </p>
+
+            <h3>Example A: Python error handling and structured logging</h3>
+            <pre><code>from dataclasses import dataclass
+import logging
+
+logger = logging.getLogger(__name__)
+
+@dataclass(frozen=True)
+class Result:
+    """
+    Small Result object makes return values explicit and testable.
+
+    Why this pattern helps:
+    - Reduces exception-driven control flow for expected failures.
+    - Encourages caller-side handling that is easy to unit test.
+    - Gives the coding agent a clear, repeatable structure to follow.
+    """
+    ok: bool
+    error: str | None = None
+
+def parse_user_id(raw: str) -&gt; Result:
+    """
+    Validate and normalize a user_id input without throwing.
+
+    What:
+    - Ensure raw is numeric.
+
+    How:
+    - Strip whitespace
+    - Return Result(ok=False, error=...) on invalid input
+    - Log a structured message with context fields
+
+    Interesting fact:
+    - Logging with key-value fields (via extra=...) improves searchability in log tools
+      and reduces ambiguity compared to interpolated strings.
+    """
+    raw = (raw or "").strip()
+
+    if not raw.isdigit():
+        # Clear, structured logging. Do not log secrets.
+        logger.info("Invalid user id", extra={"user_id": raw})
+        return Result(ok=False, error="user_id must be numeric")
+
+    return Result(ok=True)</code></pre>
+
+            <p>
+                How to use this in an issue: paste the snippet and add a single sentence like
+                “Follow this Result pattern for validation failures, and log with extra fields.”
+            </p>
+
+            <h3>Example B: JavaScript input validation with clear errors</h3>
+            <pre><code>export function validateEmail(email) {
+  /**
+   * Keep validation deterministic and testable.
+   *
+   * Why this pattern helps:
+   * - Pure functions are easy to unit test.
+   * - The agent can implement changes safely when behavior is encoded in tests.
+   *
+   * Interesting fact:
+   * - Many production bugs come from inconsistent normalization (null, undefined, whitespace).
+   *   Converting early (String(...) and trim()) standardizes the input surface.
+   */
+  const value = String(email ?? "").trim();
+
+  if (!value.includes("@")) {
+    return { ok: false, error: "email must contain @" };
+  }
+
+  return { ok: true, value };
+}</code></pre>
+
+            <h2>5) Custom instructions: make quality automatic</h2>
+            <p>
+                Think of instructions as policy as code for your agent. Instructions reduce review churn because they prevent
+                the most common “this is not how we do it here” feedback.
+            </p>
+
+            <p>
+                Instruction layers (in increasing scope):
+            </p>
+
+            <ul>
+                <li><strong>Repository instructions</strong>: conventions that always apply in this repo</li>
+                <li><strong>Organization instructions</strong>: standards across all repos</li>
+                <li><strong>Custom agents</strong>: reusable profiles for repeatable workflows</li>
+            </ul>
+
+            <p>
+                Interesting fact: well-maintained instructions often reduce review time more than coding time.
+                Each improvement compounds across every future agent-created PR.
+            </p>
+
+            <h3>Example: repository instructions content you can adapt</h3>
+            <p>
+                The exact storage location varies by setup, but the content shape is the key: specific, testable, and aligned to your repo.
+            </p>
+
+            <pre><code># Repo Engineering Standards (for GitHub Copilot)
+
+## Code style
+- Prefer small, pure functions with explicit inputs and outputs.
+- Avoid clever abstractions. Choose readability over micro-optimizations.
+- Add comments only where intent is non-obvious.
+
+## Python
+- Target Python 3.12.
+- Prefer standard library first. Add dependencies only with justification.
+- Use pytest for tests. Name tests test_*.py.
+
+## JavaScript or Node
+- Target Node.js 22 LTS.
+- Prefer built-in fetch and standard Web APIs where possible.
+- Use minimal dependencies.
+
+## Testing and validation
+- Always add or update tests for behavior changes.
+- Provide commands in the PR description:
+  - python -m pytest
+  - npm test (or the repo's standard)
+- Ensure lint or format passes.
+
+## Observability
+- Use structured logs (key value fields).
+- Do not log secrets or tokens.</code></pre>
+
+            <h2>6) Backlog decomposition: turning big scary work into safe slices</h2>
+            <p>
+                Agents handle small atomic tasks best. For large initiatives, create a tree of issues where each issue is independently mergeable,
+                independently testable, low blast radius, and clearly scoped to one area.
+            </p>
+
+            <h3>Example: improve authentication reliability</h3>
+            <p>
+                Instead of one epic, split into:
+            </p>
+
+            <ul>
+                <li>Issue A: add unit tests for token refresh edge cases</li>
+                <li>Issue B: add retry with jitter to auth upstream calls</li>
+                <li>Issue C: add metrics for refresh failures by reason</li>
+                <li>Issue D: document runbook for common auth incidents</li>
+            </ul>
+
+            <p>
+                Each becomes an agent task. Each yields a PR you can review without fear.
+            </p>
+
+            <h2>7) A practical workflow for Product Owners and DevOps leads</h2>
+            <ol>
+                <li>
+                    <strong>Pick a backlog cluster</strong>
+                    <p>Examples: CI slow, noisy alerts, dependency drift, flaky tests, Terraform hygiene.</p>
+                </li>
+                <li>
+                    <strong>Write 5 to 10 agent-ready issues</strong>
+                    <p>Use the template above. Keep each scope narrow.</p>
+                </li>
+                <li>
+                    <strong>Assign them in parallel to the coding agent</strong>
+                    <p>You are often trading developer time for reviewer time, which is a good trade when changes are atomic.</p>
+                </li>
+                <li>
+                    <strong>Review PRs with a checklist</strong>
+                    <p>
+                        Confirm acceptance criteria, verify tests are meaningful, ensure alignment with instructions,
+                        and assess cross-system impacts (humans own this part).
+                    </p>
+                </li>
+                <li>
+                    <strong>Update instructions when you see repeat review comments</strong>
+                    <p>Over time, your instruction set becomes guardrails that prevent rework.</p>
+                </li>
+            </ol>
+
+            <h2>8) PR review checklist (optimized for agent output)</h2>
+            <pre><code>- [ ] Scope matches the issue (no surprise refactors)
+- [ ] Tests cover success and failure cases
+- [ ] Error messages are actionable
+- [ ] Logs are structured and do not include secrets
+- [ ] Performance considerations acknowledged (if relevant)
+- [ ] Docs or runbooks updated (if relevant)
+- [ ] Commands to validate are included in PR description</code></pre>
+
+            <h2>9) Where humans must stay in the loop</h2>
+            <p>
+                Even with perfect issues, keep humans responsible for:
+            </p>
+
+            <ul>
+                <li>Are we solving the right problem</li>
+                <li>Cross-service side effects</li>
+                <li>Security posture and threat modeling</li>
+                <li>Rollout strategy (feature flags, migrations, SLO risk)</li>
+            </ul>
+
+            <p>
+                Agents are great at implementing, but they do not own the system.
+            </p>
+
+            <h2>Closing: backlog reduction as an engineering system</h2>
+            <p>
+                Treat backlog clearing like a production pipeline:
+            </p>
+
+            <ul>
+                <li>Inputs: issue quality and instruction quality</li>
+                <li>Automation: coding agents executing well-scoped tasks</li>
+                <li>Quality control: tests, review checklist, and human judgment</li>
+            </ul>
+
+            <p>
+                If you improve the inputs, the whole system accelerates.
+            </p>
+
+            <p>
+                If you want to tailor this, pick one backlog theme (CI performance, Terraform cleanup, flaky tests, dependency upgrades,
+                logging standardization) and generate a set of 8 to 12 agent-ready issues with acceptance criteria and validation commands.
+            </p>
+        </div>
+    </article>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; 2026 Developer FAQ. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="../script.js"></script>
+</body>
+</html>
