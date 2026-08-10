@@ -1,238 +1,158 @@
-# Tokenomics for AI Development: Measuring the Full Economic Lifecycle of GitHub Copilot
+# Tokenomics for AI Development: From AI Spend to Business Value
 
-Modern AI development tools are often evaluated using a narrow question:
+AI-assisted software development is becoming a standard part of how engineering teams work.
 
-> How many prompts did developers send?
+Developers use AI to write code, generate tests, explain unfamiliar systems, review pull requests, investigate bugs, and automate repetitive tasks. Agents can now go further by searching repositories, editing files, running tests, and iterating on their own changes.
 
-That question is useful, but insufficient.
+That creates a new question for technology leaders:
 
-Prompt volume describes activity. It does not describe value.
+> Are we actually getting value from our AI investment?
 
-A company may spend heavily on GitHub Copilot while receiving limited business benefit. Another company may use fewer prompts but achieve faster pull requests, shorter review cycles, stronger developer adoption, and better delivery outcomes.
+It is tempting to answer that question by looking at a few simple metrics:
 
-To understand the real economics of AI-assisted software development, organizations need a more complete model. They need to connect:
+- Number of licensed users
+- Number of prompts
+- Number of generated lines of code
+- Number of agent runs
+- Number of active developers
 
-1. What the organization buys and spends
-2. What is configured and built in repositories
-3. How developers and agents use the system at runtime
-4. What business outcomes result from that usage
+Those metrics are useful, but they are not enough.
 
-This article presents a technical tokenomics framework for analyzing that complete lifecycle.
+A high prompt count does not necessarily mean high productivity. A low prompt count does not necessarily mean low value. More generated code can even create more review and maintenance work.
 
-Here, **tokenomics** does not refer to cryptocurrency economics. It refers to the economic analysis of AI consumption, including prompts, completions, context windows, agent actions, repository assets, developer behavior, platform cost, and business impact.
+To understand the real economics of AI-assisted development, we need to connect four separate layers:
 
-The central question is:
+1. **Organizational economics**
+2. **Repository economics**
+3. **Developer and agent economics**
+4. **Outcome economics**
 
-> Are customers receiving value from their GitHub Copilot investment, from billing and repository design through to developer behavior and business outcomes?
+The goal is to connect these layers into one end-to-end view of AI value.
+
+The main question becomes:
+
+> Are customers getting value from their AI investment, from billing and repository design through to developer behavior and business outcomes?
 
 ---
 
-## 1. Why AI Economics Requires More Than Usage Metrics
+## What does "tokenomics" mean here?
 
-Traditional software economics are relatively straightforward.
+In this article, tokenomics does not mean cryptocurrency economics.
 
-A company buys licenses, employees use the software, and leaders estimate value through productivity, efficiency, or revenue. AI-assisted development introduces a more complex consumption model.
+Here, tokenomics means the study of how AI resources are consumed and converted into useful engineering work.
 
-An AI development platform has several distinct economic layers:
+That includes:
 
-- Seat allocation
-- Prompt and completion volume
+- Prompts
+- Completions
+- Input tokens
+- Output tokens
+- Context windows
 - Model selection
-- Context size
-- Agent execution
+- Agent actions
+- Tool calls
 - Repository configuration
-- Reusable prompts
-- Custom instructions
 - Developer adoption
-- Pull request velocity
+- Pull request activity
 - Code quality
-- Business delivery outcomes
+- Business outcomes
 
-These layers are connected, but they are not interchangeable.
-
-For example:
-
-- A high number of prompts may indicate strong adoption.
-- A high number of prompts may also indicate that developers are struggling to get useful results.
-- A large repository context may increase answer quality.
-- A large repository context may also increase cost and latency.
-- A high number of generated lines may indicate productivity.
-- A high number of generated lines may also indicate unnecessary code or increased review burden.
-
-The economic signal is therefore not a single metric. It is a relationship between cost, usage, behavior, and outcomes.
-
-A useful abstraction is:
-
-\[
-\text{AI Value} =
-\text{Business Outcome Value}
--
-\text{Total AI Cost}
-\]
-
-Where:
-
-\[
-\text{Total AI Cost} =
-\text{Subscription Cost}
-+
-\text{Runtime Consumption Cost}
-+
-\text{Operational Cost}
-+
-\text{Quality and Risk Cost}
-\]
-
-The fourth term is often forgotten.
-
-If AI-generated code increases security reviews, defect remediation, or maintenance burden, those costs belong in the model.
-
----
-
-## 2. The Four-Layer Economics Framework
-
-The proposed framework contains four layers:
-
-1. Organizational economics
-2. Repository economics
-3. Developer and agent economics
-4. Outcome economics
-
-These layers should not be analyzed independently. Their purpose is to form a chain of evidence.
+A useful high-level formula is:
 
 ```text
-Organization spending
-        |
-        v
-Repositories and configured assets
-        |
-        v
-Developer and agent runtime behavior
-        |
-        v
+AI value = business outcome value - total AI cost
+```
+
+The total cost is broader than the subscription price:
+
+```text
+Total AI cost =
+    subscription cost
+  + runtime consumption cost
+  + platform and operational cost
+  + review and correction cost
+  + quality and risk cost
+```
+
+That last category matters.
+
+If an AI-generated change creates extra bugs, security reviews, or maintenance work, those costs are part of the economic picture too.
+
+---
+
+# The four-layer framework
+
+The framework is easier to understand as a flow:
+
+```text
+Organizational investment
+          |
+          v
+Repository configuration
+          |
+          v
+Developer and agent behavior
+          |
+          v
 Engineering and business outcomes
 ```
 
-This creates a flow from investment to impact.
-
 Each layer answers a different question.
 
-| Layer | Primary question |
+| Layer | Question |
 |---|---|
-| Org Economics | What are we paying for, and where is the investment allocated? |
-| Repo Economics | What has been configured or built to support AI-assisted development? |
-| Developer and Agent Economics | How is AI actually being consumed at runtime? |
-| Outcome Economics | What measurable value is produced? |
+| Organizational economics | What are we buying, and where is the money going? |
+| Repository economics | What have we configured or built to support AI-assisted development? |
+| Developer and agent economics | How are people and agents using AI at runtime? |
+| Outcome economics | What measurable value is being created? |
 
-The key design principle is **joinability**.
+The important part is not just measuring each layer separately.
 
-Every layer needs identifiers that allow records to be connected across the system. Common dimensions include:
+The important part is joining them together.
 
-- Organization ID
-- Enterprise ID
-- Repository ID
-- Team ID
-- Developer ID
-- Agent ID
-- Model ID
-- Prompt or interaction ID
-- Pull request ID
-- Commit ID
-- Time period
-- Product or business unit
+For example:
 
-Without these shared dimensions, the result is a collection of dashboards rather than an economic model.
+```text
+Organization spending
+    -> Repository configuration
+        -> Developer and agent usage
+            -> Pull request behavior
+                -> Business outcomes
+```
+
+Without those connections, we end up with a collection of dashboards that report activity but do not explain value.
 
 ---
 
-# 3. Layer One: Organizational Economics
+# Layer one: Organizational economics
 
-## 3.1 What the billing layer measures
+## Measuring the investment
 
-The organizational layer begins with the customer's investment.
+The first layer starts with the customer’s investment.
 
-It should answer questions such as:
+At this level, we want to understand:
 
 - How many seats were purchased?
 - How many seats were assigned?
 - How many assigned users were active?
-- Which organizations or business units consume the most capacity?
+- Which business units are consuming the most capacity?
 - What is the cost per active developer?
 - What is the cost per pull request?
-- What is the cost per adopted developer?
 - Which teams have unused allocations?
-- Which organizations have high cost but low downstream activity?
+- Which organizations have high spend but low downstream activity?
 
-This layer is the financial baseline.
+This is the financial baseline.
 
-A basic utilization ratio is:
+A basic seat utilization formula looks like this:
 
-\[
-\text{Seat Utilization} =
-\frac{\text{Active Assigned Seats}}
-{\text{Total Purchased Seats}}
-\]
+```text
+Seat utilization =
+    active assigned seats
+    ---------------------
+    purchased seats
+```
 
-However, active usage alone is not value.
-
-A more useful metric is:
-
-\[
-\text{Economic Utilization} =
-\frac{\text{Active Developers Producing Measured Outcomes}}
-{\text{Purchased Seats}}
-\]
-
-The definition of "producing measured outcomes" must be adapted to the organization. It could mean developers who:
-
-- Use Copilot regularly
-- Submit pull requests
-- Merge code
-- Reduce cycle time
-- Contribute to targeted business initiatives
-- Improve delivery metrics without increasing defect rates
-
-## 3.2 Cost allocation
-
-Organizational economics becomes more valuable when cost can be allocated to meaningful dimensions.
-
-For example:
-
-\[
-\text{Team AI Cost} =
-\text{Seat Cost}
-+
-\text{Estimated Runtime Cost}
-+
-\text{Platform Allocation}
-\]
-
-Runtime cost may be estimated using a weighted consumption model:
-
-\[
-\text{Runtime Cost} =
-\sum_{i=1}^{n}
-\left(
-T_i \times C_T
-+
-C_i \times C_C
-+
-A_i \times C_A
-\right)
-\]
-
-Where:
-
-- \(T_i\) is input token usage for interaction \(i\)
-- \(C_T\) is input token price
-- \(C_i\) is output token usage
-- \(C_C\) is output token price
-- \(A_i\) is agent action consumption
-- \(C_A\) is the cost of agent actions
-
-The exact pricing model varies by product and contract, so the data model should store pricing inputs separately from usage facts.
-
-A simple financial fact table might look like this:
+In Python:
 
 ```python
 from dataclasses import dataclass
@@ -242,7 +162,7 @@ from decimal import Decimal
 
 @dataclass
 class OrganizationSpend:
-    """Represents one organization's AI investment for a billing period."""
+    """Stores AI investment and usage for one billing period."""
 
     organization_id: str
     billing_period: date
@@ -254,12 +174,13 @@ class OrganizationSpend:
 
     @property
     def total_cost(self) -> Decimal:
-        """Return the complete estimated cost for the period."""
+        """Return subscription cost plus estimated runtime cost."""
         return self.subscription_cost + self.estimated_runtime_cost
 
     @property
     def seat_utilization(self) -> Decimal:
-        """Return the percentage of purchased seats that were active."""
+        """Return active seats as a percentage of purchased seats."""
+        # Avoid division by zero for organizations with no purchased seats.
         if self.purchased_seats == 0:
             return Decimal("0")
 
@@ -270,71 +191,139 @@ class OrganizationSpend:
         )
 ```
 
-### Context around the code
+### What this code is doing
 
-This model separates subscription cost from runtime cost. That distinction matters because a customer may have a fixed license expense but variable consumption expense.
+This model separates two types of cost:
 
-The use of `Decimal` instead of `float` is intentional. Financial calculations should avoid binary floating-point rounding surprises. For example, values such as `0.1` cannot be represented exactly by standard binary floating-point types.
+- Subscription cost
+- Runtime consumption cost
 
-### Interesting fact
+That distinction is useful because the subscription may be relatively fixed, while runtime usage can vary depending on prompts, models, context size, and agent activity.
 
-A team with 90 percent seat utilization may still have poor economic utilization if developers use the tool frequently but do not experience faster delivery or better outcomes.
+The example uses `Decimal` instead of `float` because this is financial data. Binary floating-point values can introduce small rounding errors that become awkward when aggregated across thousands of transactions.
 
-Adoption is necessary for value, but it is not proof of value.
+### An interesting detail
+
+High seat utilization is not the same as high economic value.
+
+An organization may have 95 percent active seats, but if developers are not completing work faster or producing better outcomes, the investment may still need attention.
+
+Adoption is a prerequisite for value. It is not proof of value.
+
+## Cost allocation
+
+Organizational economics becomes more useful when costs can be allocated to meaningful dimensions:
+
+- Business unit
+- Team
+- Repository
+- Developer cohort
+- Product area
+- Model
+- Agent
+- Task type
+
+A simplified cost model might look like this:
+
+```text
+Team AI cost =
+    allocated subscription cost
+  + estimated runtime cost
+  + platform allocation
+```
+
+Estimated runtime cost could be calculated as:
+
+```text
+Runtime cost =
+    input tokens * input token price
+  + output tokens * output token price
+  + agent actions * agent action price
+```
+
+In mathematical form:
+
+\[
+\text{Runtime Cost} =
+\sum_{i=1}^{n}
+\left(
+T_i \times C_T
++
+O_i \times C_O
++
+A_i \times C_A
+\right)
+\]
+
+Where:
+
+- \(T_i\) is input token usage
+- \(C_T\) is input token price
+- \(O_i\) is output token usage
+- \(C_O\) is output token price
+- \(A_i\) is agent action usage
+- \(C_A\) is the estimated cost per agent action
+
+The actual pricing model will depend on the product and contract, so prices should be stored separately from usage records.
+
+That way, the organization can update pricing without rewriting historical usage data.
 
 ---
 
-# 4. Layer Two: Repository Economics
+# Layer two: Repository economics
 
-## 4.1 Repository configuration as an economic asset
+## Repositories are economic assets
 
-The repository layer analyzes what an organization has built and configured around AI-assisted development.
+The repository layer focuses on what has been built and configured around AI-assisted development.
 
-This is a more static layer than runtime usage. It includes:
+This is more of a static view than a runtime view.
+
+It can include:
 
 - Repository-level instructions
 - Organization-level instructions
 - Prompt files
 - Agent definitions
 - Tool configurations
-- Custom workflows
 - Coding standards
-- Test-generation templates
-- Documentation-generation prompts
+- Test-generation prompts
+- Documentation workflows
+- Security review agents
 - Domain-specific assistants
 - Context files
 - Model configuration
-- Security policies
 - Automation hooks
 
 These assets represent investment.
 
-A repository with carefully designed instructions may produce more reliable AI output than a repository with no standards, even if both have identical seat counts.
+A repository with clear instructions, reusable prompts, strong tests, and carefully designed agents may produce more reliable AI output than a repository with no guidance.
 
-The repository layer therefore asks:
+The repository layer asks:
 
-> What reusable assets exist, how mature are they, and how likely are they to improve the economics of runtime usage?
+> What have we built to make AI usage more effective, consistent, and safe?
 
-## 4.2 Static scan versus runtime measurement
+## Static configuration versus runtime usage
 
-A repository scan can identify whether a project contains a custom agent configuration. It cannot prove that the agent is useful.
+A repository scan can tell us that a security-review agent exists.
 
-This distinction is important:
+It cannot tell us whether developers actually use it or whether it improves outcomes.
+
+That distinction is important:
 
 ```text
 Static presence:
-The repository contains a code-review agent.
+The repository contains a security-review agent.
 
 Runtime behavior:
 Developers invoke the agent during pull request preparation.
 
 Outcome:
-The agent helps reduce review time without increasing escaped defects.
+The agent helps identify security issues without increasing review time.
 ```
 
 Each statement belongs to a different layer.
 
-A repository scanner might produce records such as:
+A repository inventory might look like this:
 
 | Repository | Asset type | Asset name | Complexity | Last modified | Owner |
 |---|---|---|---:|---|---|
@@ -342,14 +331,14 @@ A repository scanner might produce records such as:
 | web-client | Prompt | test-generator | Medium | 2026-07-30 | Web |
 | data-pipeline | Instructions | coding-standards | High | 2026-08-01 | Data |
 
-## 4.3 Repository maturity scoring
+## Repository maturity
 
-A maturity score can be useful for comparison, provided that it is not treated as a business outcome.
+Organizations may want a way to compare repository readiness.
 
-One possible score:
+One possible maturity score is:
 
 \[
-\text{Repo Maturity} =
+\text{Repository Maturity} =
 w_1I +
 w_2A +
 w_3P +
@@ -364,9 +353,9 @@ Where:
 - \(P\) is prompt reuse
 - \(T\) is test integration
 - \(S\) is security and governance coverage
-- \(w_1 \dots w_5\) are configurable weights
+- \(w_1\) through \(w_5\) are configurable weights
 
-A basic implementation could look like this:
+Here is a simple implementation:
 
 ```python
 from dataclasses import dataclass
@@ -374,7 +363,7 @@ from dataclasses import dataclass
 
 @dataclass
 class RepositoryMaturity:
-    """Stores normalized scores for AI development assets."""
+    """Stores normalized repository readiness scores from zero to one."""
 
     instructions: float
     agents: float
@@ -384,11 +373,12 @@ class RepositoryMaturity:
 
     def score(self) -> float:
         """
-        Calculate a weighted maturity score from zero to one.
+        Calculate a weighted repository maturity score.
 
-        The weights intentionally favor reusable instructions and testing,
-        because those assets influence many future interactions.
+        The values should already be normalized between zero and one.
         """
+        # These weights are examples and should be adjusted to match
+        # the organization's priorities.
         weights = {
             "instructions": 0.25,
             "agents": 0.20,
@@ -405,20 +395,30 @@ class RepositoryMaturity:
             "security": self.security,
         }
 
+        # Multiply each score by its weight and add the results together.
         return sum(values[key] * weights[key] for key in weights)
 ```
 
-### Context around the code
+### What this code is doing
 
-The score is deliberately normalized between zero and one. This makes it easier to compare repositories without confusing asset maturity with repository size.
+The score is normalized between zero and one, which makes it easier to compare repositories of different sizes.
 
-A weighted model also allows an organization to encode priorities. For a safety-critical system, security could receive a larger weight. For a rapidly evolving product, prompt reuse and testing might be more important.
+The weights are also explicit. That matters because different organizations will have different priorities.
 
-### Interesting fact
+For example:
 
-Repository configuration is often a multiplier rather than a direct output. A well-designed instruction file may affect thousands of future interactions, making its economic impact difficult to see in a single prompt-level metric.
+- A security-sensitive company might increase the security weight.
+- A platform team might emphasize reusable agents.
+- A startup might emphasize testing and delivery speed.
+- A regulated organization might give governance a much larger weight.
 
-## 4.4 The danger of maturity theater
+### An interesting detail
+
+Repository configuration often acts as a multiplier.
+
+A good instruction file may influence thousands of future interactions. That means the economic value of the file may not appear in a single prompt or pull request.
+
+## Beware of maturity theater
 
 Static assets can create the appearance of maturity.
 
@@ -426,34 +426,32 @@ A repository might contain:
 
 - Ten agents that nobody invokes
 - A prompt library with outdated examples
-- Instructions that conflict with actual coding standards
-- Tests that pass but do not validate meaningful behavior
+- Instructions that conflict with the actual coding standards
+- Tests that pass without validating useful behavior
 - Security guidance that is never enforced
 
-Therefore, repository maturity should eventually be joined to runtime and outcome data.
+That is why repository maturity should eventually be joined to runtime and outcome data.
 
-A more complete relationship is:
+A more complete formula could be:
 
-\[
-\text{Effective Repository Value} =
-\text{Repository Maturity}
-\times
-\text{Runtime Adoption}
-\times
-\text{Outcome Correlation}
-\]
+```text
+Effective repository value =
+    repository maturity
+  * runtime adoption
+  * outcome correlation
+```
 
-If any factor is close to zero, the effective value is limited.
+If any one of those factors is close to zero, the effective value is limited.
 
 ---
 
-# 5. Layer Three: Developer and Agent Economics
+# Layer three: Developer and agent economics
 
-## 5.1 Runtime consumption
+## Measuring real usage
 
-The developer and agent layer measures what happens while work is being performed.
+The developer and agent layer measures what happens while work is actually being performed.
 
-This includes:
+Useful signals include:
 
 - Prompt count
 - Completion count
@@ -465,64 +463,71 @@ This includes:
 - Tool calls
 - Retry frequency
 - Interaction duration
-- Prompt acceptance
-- Suggested code retention
-- Follow-up correction prompts
+- Suggested code acceptance
 - Human edits after generation
 - Generated tests
 - Generated documentation
-- Generated pull request descriptions
+- Pull request descriptions
+- Agent-produced changes
+- Changes that are eventually merged
 
-This is the layer most commonly called "usage analytics."
+This is the layer most people think of when they hear "AI usage analytics."
 
-It is also the layer where simplistic metrics cause the most confusion.
+It is also where many measurement mistakes happen.
 
-## 5.2 Token volume is not productivity
+## Token volume is not productivity
 
-A token is a unit of model processing. It is not a unit of business value.
+A token is a unit of model processing.
+
+It is not a unit of business value.
 
 High token consumption may indicate:
 
-- Complex tasks
-- Large repositories
-- Long context windows
+- A complex task
+- A large repository
+- A useful long-context interaction
 - Poor prompt quality
 - Repeated failed attempts
-- Agent loops
+- An agent loop
 - Excessive tool usage
-- Difficult domain problems
+- A difficult debugging session
 
 Low token consumption may indicate:
 
 - Efficient prompts
+- Strong repository instructions
 - Simple tasks
-- Strong reusable instructions
-- Mature code patterns
+- Mature coding patterns
 - Low adoption
 - Developers abandoning the tool
 
-Consequently, token volume should be interpreted alongside success signals.
+So token counts need context.
 
-A useful metric is the **productive interaction rate**:
+A useful metric is productive interaction rate:
 
-\[
-\text{Productive Interaction Rate} =
-\frac{\text{Interactions Producing Accepted Output}}
-{\text{Total Interactions}}
-\]
+```text
+Productive interaction rate =
+    interactions producing accepted output
+    --------------------------------------
+    total interactions
+```
 
-"Accepted output" should be defined carefully. Possible signals include:
+"Accepted output" needs a clear definition.
+
+It might mean:
 
 - Suggested code accepted with minimal editing
-- Generated test retained in a later commit
-- Agent-produced changes merged
-- Pull request description accepted
-- Developer explicitly marking a response as useful
-- Reduction in follow-up correction prompts
+- A generated test retained in a later commit
+- An agent-produced change merged
+- A generated pull request description accepted
+- A developer explicitly marking an interaction as useful
+- A reduction in corrective follow-up prompts
 
-## 5.3 Prompt efficiency
+## Prompt efficiency
 
-Prompt efficiency estimates how much useful progress is created per unit of consumption.
+Prompt efficiency estimates how much useful progress is created from a given amount of AI consumption.
+
+One possible formula is:
 
 \[
 \text{Prompt Efficiency} =
@@ -530,17 +535,20 @@ Prompt efficiency estimates how much useful progress is created per unit of cons
 {\text{Input Tokens} + \alpha \times \text{Output Tokens}}
 \]
 
-The coefficient \(\alpha\) represents the relative cost or importance of output tokens.
+The coefficient \(\alpha\) represents the relative importance or cost of output tokens.
 
-A more operational metric might be:
+A simpler operational metric might be:
 
-\[
-\text{Change Efficiency} =
-\frac{\text{Merged Lines or Behaviors}}
-{\text{Prompt Count}}
-\]
+```text
+Change efficiency =
+    accepted changes
+    ----------------
+    prompt count
+```
 
-However, lines of code are a weak proxy. Ten lines that fix a critical production issue may be more valuable than one thousand generated lines that are never merged.
+Lines of code can also be used, but they are a weak proxy.
+
+Ten lines that fix a serious production issue may be more valuable than one thousand generated lines that are never merged.
 
 Better denominators include:
 
@@ -551,63 +559,66 @@ Better denominators include:
 - Delivered product capabilities
 - Reduced cycle time
 
-## 5.4 Agent economics
+## Agent economics
 
-Agents introduce additional economic dimensions.
+Agents add another level of complexity.
 
-A conversational completion may produce text. An agent may:
+A typical agent task may look like this:
 
+```text
 1. Read repository files
-2. Search code
+2. Search for relevant code
 3. Call tools
 4. Modify files
 5. Run tests
 6. Inspect failures
 7. Retry changes
 8. Produce a final patch
+```
 
-The cost of an agent task is therefore more than prompt and completion tokens.
+The cost of the task is therefore more than the prompt and completion.
 
-A simplified agent cost model is:
+A simplified model is:
 
-\[
-\text{Agent Task Cost} =
-\text{Model Token Cost}
-+
-\text{Tool Invocation Cost}
-+
-\text{Compute Cost}
-+
-\text{Human Review Cost}
-\]
+```text
+Agent task cost =
+    model token cost
+  + tool invocation cost
+  + compute cost
+  + human review cost
+```
 
-Human review cost is especially important. An agent that generates a patch quickly but requires extensive review may not create net value.
+Human review cost is particularly important.
 
-A practical agent efficiency measure is:
+An agent that creates a patch quickly but requires a long review may not create net value.
+
+A practical formula is:
 
 \[
 \text{Agent Net Benefit} =
 \text{Estimated Developer Time Saved}
 -
-\text{Review and Correction Time}
+\text{Review Time}
+-
+\text{Correction Time}
 -
 \text{Runtime Cost}
 \]
 
-## 5.5 Detecting inefficient interactions
+## Detecting inefficient interactions
 
-A tokenomics system should identify patterns such as:
+A tokenomics system should be able to identify patterns such as:
 
 - Many short retries
 - Long prompts followed by immediate rejection
 - Repeated use of the same failed instruction
 - Large context windows for small tasks
 - High agent action counts with no merged result
-- Excessive model escalation
-- High token usage in repositories with low adoption
+- Frequent model escalation
+- High token usage in low-adoption repositories
 - High usage associated with increased defect rates
 
-Example event aggregation:
+Here is a simple aggregation example:
 
 ```python
 from collections import defaultdict
@@ -630,10 +641,10 @@ def summarize_interactions(
     interactions: list[Interaction],
 ) -> dict[str, dict[str, float]]:
     """
-    Aggregate runtime economics by developer.
+    Aggregate interaction metrics by developer.
 
-    The function returns simple operational metrics that can later be
-    joined with billing, repository, and outcome data.
+    The results can later be joined with billing, repository,
+    pull request, and outcome data.
     """
     summary = defaultdict(
         lambda: {
@@ -646,8 +657,10 @@ def summarize_interactions(
     )
 
     for interaction in interactions:
+        # Retrieve the running totals for the current developer.
         metrics = summary[interaction.developer_id]
 
+        # Add the current interaction to the developer's totals.
         metrics["interactions"] += 1
         metrics["accepted_interactions"] += int(interaction.accepted)
         metrics["input_tokens"] += interaction.input_tokens
@@ -655,6 +668,7 @@ def summarize_interactions(
         metrics["duration_seconds"] += interaction.duration_seconds
 
     for metrics in summary.values():
+        # Use the interaction count as the denominator for rate metrics.
         total = metrics["interactions"]
 
         metrics["acceptance_rate"] = (
@@ -670,27 +684,39 @@ def summarize_interactions(
     return dict(summary)
 ```
 
-### Context around the code
+### What this code is doing
 
-This aggregation intentionally avoids pretending that raw token counts equal value. It calculates acceptance rate and token intensity together.
+This function calculates both usage intensity and acceptance rate.
 
-For production use, the output should be written to a warehouse table with dimensions such as organization, repository, team, model, task type, and time period.
+That combination is more useful than token volume by itself.
 
-### Interesting fact
+For production use, the output should be stored with additional dimensions such as:
 
-A developer with a lower acceptance rate may not be less productive. They may be using the tool for exploratory work, architecture design, or debugging, where rejection and iteration are normal parts of the process.
+- Organization
+- Team
+- Repository
+- Model
+- Agent
+- Task type
+- Time period
 
-Metrics must be interpreted within task context.
+### An interesting detail
+
+A developer with a low acceptance rate is not necessarily less productive.
+
+They may be using AI for exploration, architecture, debugging, or learning. In those situations, rejecting several suggestions may be completely normal.
+
+Metrics should always be interpreted within the context of the task.
 
 ---
 
-# 6. Layer Four: Outcome Economics
+# Layer four: Outcome economics
 
-## 6.1 Connecting AI usage to business value
+## Connecting AI usage to value
 
-Outcome economics is the most important and most difficult layer.
+Outcome economics is the most important layer and probably the hardest one to get right.
 
-It asks whether AI-assisted development changes meaningful engineering or business results.
+This layer asks whether AI-assisted development changes meaningful engineering or business results.
 
 Potential outcome metrics include:
 
@@ -703,44 +729,51 @@ Potential outcome metrics include:
 - Defect escape rate
 - Rework rate
 - Mean time to recovery
-- Developer retention
-- Onboarding time
+- Developer onboarding time
 - Adoption by developer cohort
-- Delivery against product milestones
-- Customer-facing feature throughput
+- Progress against product milestones
+- Customer-facing feature delivery
 
-These metrics should be segmented carefully.
+The key word is meaningful.
 
-For example, comparing a new developer with a senior developer without controlling for role, repository, task type, and team may produce misleading conclusions.
+A high number of prompts is an activity metric. A shorter pull request cycle time is much closer to an outcome.
 
-## 6.2 Cohort analysis
+## Cohort analysis
 
-Cohorts allow organizations to compare similar groups over time.
+Cohorts help us compare similar groups over time.
 
 Possible cohorts include:
 
-- Developers who adopted AI tools in January
-- Developers who adopted AI tools in February
-- Developers using agents regularly
-- Developers using only inline suggestions
+- Developers who adopted AI in January
+- Developers who adopted AI in February
+- Developers who frequently use agents
+- Developers who use only inline suggestions
 - Teams with mature repository instructions
 - Teams without custom repository configuration
 - New hires versus experienced developers
 - Frontend developers versus backend developers
 - Product teams versus platform teams
 
-A cohort model might compare:
+A simple before-and-after calculation is:
 
-\[
-\Delta \text{PR Cycle Time} =
-\text{Post-Adoption Cycle Time}
--
-\text{Pre-Adoption Cycle Time}
-\]
+```text
+Change in pull request cycle time =
+    post-adoption cycle time
+  - pre-adoption cycle time
+```
 
-The analysis should also include a control group when possible.
+This is useful, but it is not enough on its own.
 
-A stronger design uses difference-in-differences:
+The team may have improved because:
+
+- A new engineering manager joined
+- The team reduced its scope
+- A release deadline passed
+- A process was simplified
+- Staffing changed
+- A repository migration finished
+
+A stronger approach is difference-in-differences:
 
 \[
 \text{Estimated AI Effect} =
@@ -749,47 +782,48 @@ A stronger design uses difference-in-differences:
 (\text{Control}_{post} - \text{Control}_{pre})
 \]
 
-This helps separate the effect of AI adoption from broader changes such as:
+In plain English:
 
-- Seasonal delivery cycles
-- New engineering leadership
-- Process changes
-- Changes in staffing
-- Release deadlines
-- Repository migrations
+1. Measure the change for the team that adopted AI.
+2. Measure the change for a similar team that did not.
+3. Subtract the control group's change from the treated group's change.
 
-## 6.3 Outcome attribution is probabilistic
+This does not prove causation, but it gives us a better estimate.
 
-It is rarely possible to prove that a single AI interaction caused a business result.
+## Outcome attribution is probabilistic
 
-Instead, tokenomics should estimate contribution.
+It is rarely possible to prove that one AI interaction directly caused a business result.
 
-For example:
+Instead, we should estimate contribution using multiple variables:
 
 \[
 P(\text{Outcome Improved} \mid
 \text{AI Adoption},
-\text{Repo Maturity},
+\text{Repository Maturity},
 \text{Task Type},
 \text{Team},
 \text{Time})
 \]
 
-This is a conditional relationship, not a claim of absolute causation.
+This is a conditional relationship.
 
-A responsible analysis should state:
+It is not a guarantee.
+
+A responsible analysis should explain:
 
 - What was measured
 - What was controlled
 - What was not controlled
-- Which conclusions are correlational
-- Which conclusions are supported by experiments
-- What confidence interval applies
+- Which findings are correlational
+- Which findings came from experiments
+- What confidence level applies
 - Whether the result generalizes beyond the pilot
 
-## 6.4 A practical outcome score
+## A practical outcome score
 
-An organization may create a balanced outcome score:
+Some organizations may want a summary score.
+
+One example is:
 
 \[
 \text{Outcome Score} =
@@ -806,11 +840,9 @@ Where:
 - \(C\) is cycle-time improvement
 - \(Q\) is quality
 - \(D\) is developer experience
-- \(A\) is adoption sustainability
+- \(A\) is sustainable adoption
 
-The score should not hide individual metrics. It should act as a summary over a transparent set of measures.
-
-For example:
+Here is a simple implementation:
 
 ```python
 def outcome_score(
@@ -823,9 +855,11 @@ def outcome_score(
     """
     Calculate a balanced outcome score.
 
-    Positive values represent improvement. Each input should already be
-    normalized to the same scale, such as -1.0 to 1.0.
+    Each input should be normalized to the same scale, such as
+    -1.0 for significant decline and 1.0 for significant improvement.
     """
+    # These weights are examples. Organizations should tune them
+    # according to their own goals and risk tolerance.
     weights = {
         "velocity": 0.25,
         "cycle_time": 0.25,
@@ -842,33 +876,40 @@ def outcome_score(
         "adoption": adoption_change,
     }
 
+    # Combine the normalized metrics into one transparent summary score.
     return sum(values[name] * weights[name] for name in weights)
 ```
 
-### Context around the code
+### What this code is doing
 
-The function assumes that inputs have already been normalized. This is important because velocity, cycle time, and quality usually have different units.
+The function assumes all inputs have already been normalized to the same scale.
 
-For example:
+That is necessary because the original metrics probably use different units:
 
-- Velocity may be measured in completed work items
-- Cycle time may be measured in hours
-- Quality may be measured as escaped defects
-- Developer experience may come from survey scores
+- Velocity may be measured in completed work items.
+- Cycle time may be measured in hours.
+- Quality may be measured in escaped defects.
+- Developer experience may come from survey scores.
 
-Normalization must also account for direction. A reduction in cycle time is positive, while an increase in escaped defects is negative.
+Normalization also needs to account for direction.
 
-### Interesting fact
+A reduction in cycle time is usually positive. An increase in escaped defects is negative.
 
-A single composite score can be dangerous if it permits large velocity improvements to mask declining quality. The safest approach is to use guardrail metrics, such as preventing an outcome score from being considered successful when defect rates exceed a defined threshold.
+### An important warning
+
+A composite score should not hide individual metrics.
+
+For example, a large increase in velocity should not be allowed to mask a serious increase in defects.
+
+Quality and security should be treated as guardrails.
 
 ---
 
-# 7. Connecting the Four Layers
+# Connecting all four layers
 
-The value of the framework comes from joining the layers.
+The real value of the framework comes from joining the layers together.
 
-Consider a simplified data model:
+A simplified data model might look like this:
 
 ```text
 organizations
@@ -918,56 +959,42 @@ outcomes
   developer_experience_score
 ```
 
-The joins might look like:
+The relationships might look like this:
 
 ```text
-organization
+Organization
     |
-    +-- repositories
+    +-- Repositories
             |
-            +-- interactions
+            +-- Interactions
             |       |
-            |       +-- developers
+            |       +-- Developers
             |
-            +-- pull requests
+            +-- Pull requests
                     |
-                    +-- outcomes
+                    +-- Outcomes
 ```
 
-A complete economic record could be represented as:
-
-\[
-E =
-(O, R, D, A, U, B)
-\]
-
-Where:
-
-- \(O\) is organization investment
-- \(R\) is repository configuration
-- \(D\) is developer behavior
-- \(A\) is agent consumption
-- \(U\) is engineering usage
-- \(B\) is business outcome
-
-The system should support queries such as:
+With those relationships in place, we can ask better questions:
 
 - Which organizations have high spend and low adoption?
 - Which repositories have high maturity and high successful agent usage?
 - Do mature repositories require fewer corrective prompts?
 - Which developer cohorts reduced pull request cycle time?
-- Which agents produce merged changes?
+- Which agents produce changes that are eventually merged?
 - Which teams have increased usage but no measurable outcome improvement?
-- Is higher token consumption associated with better results for particular task types?
-- Does agent use reduce time to pull request without increasing defects?
+- Is higher token consumption associated with better results for specific task types?
+- Does agent usage reduce time to pull request without increasing defects?
+
+These are much more useful questions than simply asking how many prompts were sent.
 
 ---
 
-# 8. A Reference Tokenomics Pipeline
+# A reference tokenomics pipeline
 
-## 8.1 Ingestion
+## 1. Ingestion
 
-The pipeline begins by collecting data from multiple sources:
+The pipeline can collect data from:
 
 - Billing systems
 - Organization administration
@@ -982,22 +1009,25 @@ The pipeline begins by collecting data from multiple sources:
 - Developer surveys
 - Product analytics dashboards
 
-Each source has different latency and reliability characteristics.
-
-Billing data may be monthly. Interaction data may be near real time. Pull request data may arrive through webhooks. Developer experience data may be collected quarterly.
-
-The warehouse should preserve both:
-
-- Event time, when something happened
-- Ingestion time, when the system received the record
-
-These timestamps are essential for correcting late-arriving events.
-
-## 8.2 Normalization
-
-Raw events should be converted into a canonical schema.
+Each source has different timing and reliability characteristics.
 
 For example:
+
+- Billing data may be monthly.
+- Interaction telemetry may be near real time.
+- Pull request data may arrive through webhooks.
+- Developer experience data may be collected quarterly.
+
+The data model should preserve two timestamps:
+
+- **Event time**, when the activity happened
+- **Ingestion time**, when the platform received the record
+
+That distinction is important when events arrive late.
+
+## 2. Normalization
+
+Raw events should be converted into a canonical schema.
 
 ```python
 from dataclasses import dataclass
@@ -1006,7 +1036,7 @@ from datetime import datetime
 
 @dataclass
 class CanonicalInteraction:
-    """Normalized interaction record used by downstream analytics."""
+    """Normalized interaction record for downstream analytics."""
 
     interaction_id: str
     organization_id: str
@@ -1022,23 +1052,30 @@ class CanonicalInteraction:
 
     @property
     def duration_seconds(self) -> float:
-        """Return interaction duration in seconds."""
-        return (
-            self.completed_at - self.started_at
-        ).total_seconds()
+        """Return the interaction duration in seconds."""
+        # Datetime subtraction produces a duration object.
+        return (self.completed_at - self.started_at).total_seconds()
 ```
 
-### Context around the code
+### What this code is doing
 
-A canonical schema prevents every dashboard from interpreting telemetry differently.
+A canonical model gives every downstream system the same vocabulary.
 
-For example, one system might call a user "active" if they send one prompt in a month, while another might require five interactions in a week. Those definitions should be explicit and versioned.
+Without one, different teams may define the same metric in different ways.
 
-### Interesting fact
+For example, one system might define an active developer as someone who sent one prompt in a month. Another might require five interactions in a week.
 
-Analytics disagreements often come from semantic drift rather than arithmetic errors. Two teams can calculate different "adoption rates" correctly if they use different definitions of adoption.
+Both calculations could be technically correct while still producing incompatible dashboards.
 
-## 8.3 Feature engineering
+### An interesting detail
+
+Many analytics disagreements are caused by semantic drift rather than arithmetic mistakes.
+
+The number may be calculated correctly, but the definition behind the number has changed.
+
+Metric definitions should therefore be documented, versioned, and reviewed.
+
+## 3. Feature engineering
 
 Useful derived features include:
 
@@ -1055,11 +1092,13 @@ Useful derived features include:
 - Defects per AI-assisted change
 - Outcome change after adoption
 
-Feature calculations should be versioned because changing a definition can invalidate historical comparisons.
+Definitions should be versioned.
 
-## 8.4 Aggregation
+Changing the definition of "accepted output" can invalidate comparisons with previous periods.
 
-A typical analytics hierarchy is:
+## 4. Aggregation
+
+A typical analytics hierarchy looks like this:
 
 ```text
 Interaction
@@ -1070,23 +1109,25 @@ Interaction
                     -> Enterprise
 ```
 
-Every aggregation should retain enough detail to support drill-down.
+Every aggregation should preserve enough detail for drill-down.
 
-Leaders may want to see organizational ROI, while an engineering enablement team may need to inspect the exact repositories and agents responsible for the result.
+Business leaders may want organizational ROI. Engineering enablement teams may need to inspect the exact repositories and agents associated with that result.
 
-## 8.5 Serving
+Both views should come from the same underlying data.
 
-The final metrics may be served through:
+## 5. Serving
+
+The resulting metrics could be served through:
 
 - Data warehouse tables
-- Semantic metrics layers
+- A semantic metrics layer
 - Internal dashboards
 - APIs
 - Scheduled reports
 - Alerting systems
 - Experiment analysis notebooks
 
-The data architecture should separate:
+The architecture should separate:
 
 1. Raw events
 2. Cleaned events
@@ -1094,25 +1135,25 @@ The data architecture should separate:
 4. Metric definitions
 5. Dashboard views
 
-This separation makes debugging possible.
+This separation makes debugging much easier.
 
 ---
 
-# 9. Data Quality and Privacy
+# Data quality and privacy
 
-## 9.1 Data quality risks
+## Data quality risks
 
-Tokenomics systems are vulnerable to several data quality problems:
+Tokenomics systems are exposed to several common data quality problems:
 
 - Missing organization identifiers
-- Users changing teams
+- Developers changing teams
 - Repositories being renamed
 - Deleted repositories
 - Duplicate interaction events
 - Delayed pull request events
 - Inconsistent model names
 - Incomplete agent telemetry
-- Clock skew
+- Clock differences between systems
 - Incorrect token estimates
 - Mismatched billing periods
 
@@ -1122,93 +1163,101 @@ A reliable system should include:
 - Deduplication keys
 - Late-event handling
 - Referential integrity checks
-- Metric freshness indicators
+- Freshness indicators
 - Confidence scores
 - Data lineage
 - Backfill procedures
 
-## 9.2 Privacy boundaries
+## Privacy boundaries
 
-Developer analytics require careful governance.
+Developer analytics need careful governance.
 
-The goal should be to measure economic behavior without creating unnecessary surveillance.
+The goal should be to measure economic behavior without turning the system into unnecessary surveillance.
 
-Recommended principles include:
+Good principles include:
 
 - Prefer aggregate reporting
 - Limit access to individual-level data
 - Separate identity from productivity metrics where possible
-- Avoid inspecting sensitive prompt content unless required
-- Retain only the minimum necessary data
+- Avoid inspecting sensitive prompt content unless necessary
+- Retain only the data needed for the use case
 - Communicate measurement policies clearly
-- Allow appropriate access controls
-- Avoid ranking individuals based solely on AI usage
+- Use appropriate access controls
+- Avoid ranking individuals based only on AI usage
 
-The safest default is to use the smallest level of identity needed for the question.
+The safest default is to use the smallest identity level required for the question.
 
 For example:
 
-- Organization-level analysis may need only organization IDs.
-- Team-level analysis may need team IDs.
+- Organization analysis may need only organization IDs.
+- Team analysis may need team IDs.
 - Cohort analysis may use pseudonymous developer IDs.
-- Individual prompt review should require a strong operational justification.
+- Individual interaction inspection should require a clear operational reason.
 
 ---
 
-# 10. Common Analytical Mistakes
+# Common analytical mistakes
 
-## Mistake 1: Treating adoption as ROI
+## Mistake one: Treating adoption as ROI
 
-Adoption indicates that people are using the system.
+Adoption means people are using the system.
 
 It does not prove that they are faster, more effective, or producing better outcomes.
 
-## Mistake 2: Optimizing for token volume
+## Mistake two: Optimizing for token volume
 
 Token volume can increase because of productive complex work or unproductive retries.
 
 The objective should be useful outcomes, not maximum consumption.
 
-## Mistake 3: Counting generated lines of code
+## Mistake three: Counting generated lines of code
 
-Generated lines are easy to measure but weakly connected to value.
+Generated lines are easy to count, but they are weakly connected to value.
 
 Code that is never merged or maintained should not be treated as economic output.
 
-## Mistake 4: Ignoring repository context
+## Mistake four: Ignoring repository context
 
-Two developers may use the same number of prompts, but one may work in a mature repository with reusable agents and reliable tests while the other works in an unstructured codebase.
+Two developers may send the same number of prompts.
 
-Their economics are not equivalent.
+One may work in a mature repository with reliable tests and reusable agents. The other may work in an unstructured codebase with poor documentation.
 
-## Mistake 5: Ignoring quality
+Their usage is not economically equivalent.
+
+## Mistake five: Ignoring quality
 
 Faster delivery with more defects may reduce value rather than increase it.
 
-Quality metrics should operate as guardrails.
+Quality metrics should be treated as guardrails.
 
-## Mistake 6: Confusing correlation with causation
+## Mistake six: Confusing correlation with causation
 
-A team may improve after adopting AI because it also received new leadership, simplified its process, or reduced its scope.
+A team may improve after adopting AI because it also received:
+
+- New leadership
+- A smaller scope
+- Better processes
+- More experienced developers
+- A simpler release schedule
 
 Attribution requires controls, experiments, or carefully designed longitudinal analysis.
 
-## Mistake 7: Building dashboards before definitions
+## Mistake seven: Building dashboards before defining metrics
 
-A visually attractive dashboard with ambiguous metric definitions creates false confidence.
+A beautiful dashboard with ambiguous metric definitions creates false confidence.
 
-Definitions should be documented before visualization.
+Definitions should come before visualization.
 
 ---
 
-# 11. A Practical Value Model
+# A practical value model
 
-A complete tokenomics model can estimate value at multiple levels.
+A complete tokenomics model can estimate value at several levels.
 
-## 11.1 Organization-level value
+## Organization-level value
 
 \[
-\text{Org ROI} =
+\text{Organization ROI} =
 \frac{
 \text{Estimated Business Value}
 -
@@ -1220,7 +1269,7 @@ A complete tokenomics model can estimate value at multiple levels.
 
 Estimated business value may include:
 
-- Developer hours saved
+- Developer time saved
 - Avoided contractor cost
 - Faster revenue delivery
 - Reduced incident cost
@@ -1228,7 +1277,9 @@ Estimated business value may include:
 - Lower maintenance cost
 - Improved product throughput
 
-## 11.2 Repository-level value
+The important part is to document how each estimate was created.
+
+## Repository-level value
 
 \[
 \text{Repository Efficiency} =
@@ -1243,9 +1294,9 @@ Estimated business value may include:
 }
 \]
 
-This should be interpreted with caution because repository-level output is affected by project scope and team size.
+Repository output is affected by team size, project scope, and work complexity, so this metric should be used for comparison carefully.
 
-## 11.3 Interaction-level value
+## Interaction-level value
 
 \[
 \text{Interaction Value} =
@@ -1256,20 +1307,38 @@ This should be interpreted with caution because repository-level output is affec
 \text{Runtime Cost}
 \]
 
-Interaction-level estimates are often noisy. They become more useful when aggregated across similar task categories.
+Interaction-level estimates are noisy.
 
-## 11.4 Outcome-level value
+They become more useful when aggregated across similar task categories, such as:
+
+- Test generation
+- Documentation
+- Bug fixing
+- Refactoring
+- Pull request preparation
+- Code explanation
+
+## Outcome-level value
+
+For metrics where lower is better, such as cycle time:
 
 \[
-\text{Outcome Value} =
-\text{Baseline Outcome}
+\text{Outcome Improvement} =
+\text{Baseline Cycle Time}
 -
-\text{Observed Outcome}
+\text{Observed Cycle Time}
 \]
 
-For metrics where lower is better, such as cycle time, this formula may work directly. For metrics where higher is better, such as deployment frequency, the direction must be reversed.
+For metrics where higher is better, such as deployment frequency:
 
-The model should always state:
+\[
+\text{Outcome Improvement} =
+\text{Observed Deployment Frequency}
+-
+\text{Baseline Deployment Frequency}
+\]
+
+Every calculation should state:
 
 - Baseline period
 - Measurement period
@@ -1280,46 +1349,47 @@ The model should always state:
 
 ---
 
-# 12. The Q1 Pilot as a Validation Exercise
+# Using a pilot to validate the framework
 
-The described initiative is positioned as a Q1 priority for the Tech Success team, with collaboration across multiple teams and an initial pilot before broader rollout.
+This type of initiative is a natural candidate for a focused pilot before a broader rollout.
 
-A pilot should not attempt to measure everything.
+The pilot should not try to measure everything.
 
-Its purpose should be to validate whether the four layers can be connected reliably and whether the resulting analysis is useful to customers and internal teams.
+Its purpose should be to test whether the four layers can be connected reliably and whether the resulting analysis is useful to customers and internal teams.
 
-## 12.1 Recommended pilot questions
+## Recommended pilot questions
 
-A focused pilot could answer:
+A pilot could answer:
 
 1. Can billing data be joined to repositories?
 2. Can repository assets be scanned consistently?
 3. Can runtime interactions be attributed to teams and repositories?
-4. Can pull request and adoption metrics be joined to usage?
+4. Can pull request and adoption metrics be connected to usage?
 5. Can the system calculate cost per active developer?
-6. Can the system identify high-usage, low-outcome segments?
-7. Can the system identify repositories where configuration improves runtime efficiency?
+6. Can it identify high-usage, low-outcome segments?
+7. Can it identify repositories where configuration improves runtime efficiency?
 8. Can customers understand the results?
 9. Can teams act on the recommendations?
 
-## 12.2 Pilot selection
+## Choosing pilot participants
 
-Choose a representative sample containing:
+A representative pilot should include:
 
 - Different organization sizes
 - Different repository types
 - Different programming languages
-- Different levels of adoption
+- Different levels of AI adoption
 - Teams using agents
 - Teams using mostly conversational assistance
-- Repositories with and without custom instructions
-- A mixture of mature and immature engineering processes
+- Repositories with custom instructions
+- Repositories without custom instructions
+- Mature and immature engineering processes
 
-A pilot consisting only of highly mature teams will produce overly optimistic results.
+If the pilot includes only highly mature teams, the results may be too optimistic.
 
-## 12.3 Pilot success criteria
+## Pilot success criteria
 
-Success should be defined across three dimensions.
+Success should be measured across three dimensions.
 
 ### Technical success
 
@@ -1327,12 +1397,12 @@ Success should be defined across three dimensions.
 - Identifiers resolve across layers
 - Events are deduplicated
 - Metrics are reproducible
-- Dashboards have acceptable freshness
+- Dashboards meet freshness expectations
 
 ### Analytical success
 
-- Metrics reveal meaningful patterns
-- Results survive review by engineering teams
+- Metrics reveal useful patterns
+- Results survive technical review
 - Correlations are not presented as causal claims
 - Recommendations can be tested
 - Data quality is measurable
@@ -1340,29 +1410,28 @@ Success should be defined across three dimensions.
 ### Customer success
 
 - Customers understand where their investment goes
-- Customers can identify underutilized capacity
+- Customers can identify underused capacity
 - Customers can improve repository configuration
 - Customers can understand adoption by cohort
 - Customers can connect usage to delivery outcomes
 
 ---
 
-# 13. Recommendations Generated by the Model
+# From reporting to recommendations
 
 A tokenomics system should not stop at reporting.
 
-It should generate practical recommendations.
+It should help teams decide what to do next.
 
-Examples include:
-
-### Billing recommendations
+## Billing recommendations
 
 - Reallocate unused seats
 - Investigate inactive assignments
-- Compare cost per active developer across business units
-- Identify organizations with unusual cost growth
+- Compare cost per active developer
+- Identify unusual cost increases
+- Review organizations with high spend and low adoption
 
-### Repository recommendations
+## Repository recommendations
 
 - Add repository-level instructions
 - Consolidate duplicated prompts
@@ -1371,23 +1440,23 @@ Examples include:
 - Improve security guidance
 - Standardize agent permissions
 
-### Runtime recommendations
+## Runtime recommendations
 
 - Reduce repeated retries
 - Improve prompt templates
 - Use smaller context for simple tasks
 - Route complex tasks to appropriate models
-- Analyze agents with high action counts and low merge rates
+- Investigate agents with high action counts and low merge rates
 
-### Outcome recommendations
+## Outcome recommendations
 
 - Investigate teams with high adoption but no cycle-time improvement
 - Replicate practices from high-performing cohorts
-- Establish controlled experiments
+- Run controlled experiments
 - Add quality guardrails
-- Measure onboarding impact separately from experienced developer impact
+- Measure onboarding impact separately from experienced developers
 
-A recommendation should include:
+Every recommendation should include:
 
 - Evidence
 - Expected benefit
@@ -1415,23 +1484,38 @@ For example:
 }
 ```
 
-This format makes recommendations testable rather than speculative.
+### What this example is doing
+
+The recommendation is not just a sentence.
+
+It contains:
+
+- The type of improvement
+- The target repository
+- The evidence behind the suggestion
+- An expected benefit
+- A confidence estimate
+- A way to test whether the recommendation worked
+
+That last part is essential.
+
+A recommendation without a measurement plan is just an opinion with better formatting.
 
 ---
 
-# 14. The Strategic Importance of Connecting All Four Layers
+# Why connecting all four layers matters
 
 The four-layer model changes the conversation from:
 
 > How much are developers using AI?
 
-To:
+to:
 
 > How does organizational investment become measurable engineering and business value?
 
-That is a much more strategic question.
+That is a much more useful question.
 
-The organization layer explains allocation.
+The organizational layer explains allocation.
 
 The repository layer explains enablement.
 
@@ -1441,7 +1525,7 @@ The outcome layer explains impact.
 
 Individually, each layer is incomplete.
 
-Together, they provide a causal investigation path:
+Together, they create an investigation path:
 
 ```text
 Investment:
@@ -1457,7 +1541,7 @@ Outcomes:
 Is the organization delivering better results?
 ```
 
-This model also supports better conversations between technical and business leaders.
+This also creates a shared language across different teams.
 
 Finance can understand allocation and cost.
 
@@ -1469,26 +1553,32 @@ Product leadership can understand delivery outcomes.
 
 Security teams can understand control effectiveness.
 
-A shared economic model creates a common language across these groups.
+Everyone gets a different view of the same underlying economic model.
 
 ---
 
-# 15. Final Perspective
+# Final thoughts
 
-AI development economics cannot be reduced to seat counts, prompt counts, token counts, or lines of generated code.
+AI development economics cannot be reduced to:
+
+- Seat counts
+- Prompt counts
+- Token counts
+- Lines of generated code
+- Agent run counts
 
 Those metrics are useful inputs, but they are not the destination.
 
-A mature tokenomics system must connect:
+A mature tokenomics system should connect:
 
 1. **Organizational economics**, which measures investment and spend
 2. **Repository economics**, which measures static configuration and reusable assets
-3. **Developer and agent economics**, which measures real runtime consumption and behavior
+3. **Developer and agent economics**, which measures runtime consumption and behavior
 4. **Outcome economics**, which measures engineering and business impact
 
 The most important design principle is traceability.
 
-Every important conclusion should be traceable from:
+Every major conclusion should be traceable through a chain like this:
 
 ```text
 Business outcome
@@ -1498,16 +1588,18 @@ Business outcome
         -> Organizational investment
 ```
 
-The final product should not be a dashboard that merely reports activity. It should be an evidence system that helps organizations decide:
+The finished product should not be a dashboard that merely reports activity.
+
+It should be an evidence system that helps organizations decide:
 
 - Where to invest
 - What to improve
 - Which practices to replicate
 - Which configurations to retire
 - Which outcomes to validate
-- How to increase value from AI-assisted development
+- How to increase the value of AI-assisted development
 
-The strongest tokenomics model is therefore not the one that counts the most tokens.
+The strongest tokenomics model is not the one that counts the most tokens.
 
 It is the one that explains which tokens, repository assets, developer behaviors, and agent actions contribute to meaningful outcomes.
 

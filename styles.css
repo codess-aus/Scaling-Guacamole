@@ -367,6 +367,13 @@ body {
     margin-bottom: var(--spacing-sm);
 }
 
+.post-body h4 {
+    font-size: var(--font-size-lg);
+    font-weight: 600;
+    margin-top: var(--spacing-md);
+    margin-bottom: var(--spacing-sm);
+}
+
 .post-body ul,
 .post-body ol {
     margin-bottom: var(--spacing-md);
@@ -433,6 +440,10 @@ body {
 .post-body th {
     background: var(--bg-secondary);
     font-weight: 700;
+}
+
+.post-body .numeric-column {
+    text-align: right;
 }
 
 .math-display {
