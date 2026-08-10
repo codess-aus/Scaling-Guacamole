@@ -414,6 +414,34 @@ body {
     padding: 0;
 }
 
+.post-body table {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    border-collapse: collapse;
+    margin-bottom: var(--spacing-md);
+}
+
+.post-body th,
+.post-body td {
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--border-color);
+    text-align: left;
+    vertical-align: top;
+}
+
+.post-body th {
+    background: var(--bg-secondary);
+    font-weight: 700;
+}
+
+.math-display {
+    max-width: 100%;
+    overflow-x: auto;
+    margin: var(--spacing-md) 0;
+    padding: var(--spacing-xs) 0;
+}
+
 .post-body blockquote {
     border-left: 4px solid var(--accent-from);
     padding-left: var(--spacing-md);
