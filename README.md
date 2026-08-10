@@ -1,28 +1,31 @@
-# Developer FAQ Blog
+# Scaling Guacamole
 
-Final Website: https://www.scaling-guacamole.com/
+Website: [www.scaling-guacamole.com](https://www.scaling-guacamole.com/)
 
+An accessible static blog featuring developer productivity, AI-assisted
+development, and software engineering practices.
 
-A modern, accessible blog website featuring developer productivity tips and best practices.
-
-## 🌟 Features
+## Features
 
 - **Responsive Design**: Works beautifully on desktop, tablet, and mobile devices
 - **Dark/Light Mode**: Automatic theme detection with manual toggle (Alt + T)
 - **Gradient Design**: Beautiful purple gradient theme throughout
 - **Accessible**: WCAG compliant with keyboard navigation and screen reader support
-- **Fast & Lightweight**: Pure HTML, CSS, and JavaScript with no dependencies
-- **GitHub Pages Ready**: Automated deployment with GitHub Actions
+- **Static Site**: Pure HTML, CSS, and JavaScript with no build step
+- **Automated Deployment**: Published through GitHub Pages and Azure Static Web
+   Apps
 
-## 🚀 Local Development
+## Local Development
 
 1. Clone the repository:
+
    ```bash
-   git clone https://github.com/codess-aus/DeveloperFAQ.git
-   cd DeveloperFAQ
+   git clone https://github.com/codess-aus/Scaling-Guacamole.git
+   cd Scaling-Guacamole
    ```
 
 2. Open `index.html` in your browser or use a local server:
+
    ```bash
    python -m http.server 8000
    # or
@@ -31,64 +34,47 @@ A modern, accessible blog website featuring developer productivity tips and best
 
 3. Visit `http://localhost:8000` in your browser
 
-## 📝 Adding New Blog Posts
+## Publishing Blog Posts
 
-1. Create a new HTML file in the `posts/` directory (e.g., `posts/my-new-post.html`)
-2. Use the template from `posts/capturedecisions.html` as a starting point
-3. Update the hero image URL and content
-4. Add a new blog card to `index.html` in the blog grid section
+Blog source material can be drafted in `docs/`, but only HTML files in `posts/`
+are published as articles. Publishing also requires a matching card in
+`index.html` and any referenced assets in `images/`.
 
-## 🌐 GitHub Pages Deployment
+See [docs/PUBLISHING.md](docs/PUBLISHING.md) for the complete authoring,
+conversion, validation, and deployment workflow.
+
+## Deployment
+
+Pushes to `main` deploy the static site through both configured workflows:
+
+- `.github/workflows/deploy.yml` publishes to GitHub Pages.
+- `.github/workflows/azure-static-web-apps-green-stone-03a17880f.yml` publishes
+   to Azure Static Web Apps.
+
+Pull requests targeting `main` also create or update an Azure Static Web Apps
+preview environment. Closing the pull request removes that preview.
 
 ### First-time Setup
 
 1. Go to your repository settings on GitHub
 2. Navigate to **Pages** in the sidebar
 3. Under **Source**, select "GitHub Actions"
-4. The workflow will automatically deploy on every push to main
+4. The workflow will deploy on every push to `main`.
 
 ### Manual Deployment
 
 You can also trigger deployment manually:
+
 1. Go to the **Actions** tab in your repository
 2. Select the "Deploy to GitHub Pages" workflow
 3. Click "Run workflow"
 
-Your site will be available at: `https://codess-aus.github.io/DeveloperFAQ/`
-
-## ☁️ Azure Static Web Apps Deployment (Future)
-
-To deploy to Azure Static Web Apps:
-
-1. Install Azure CLI:
-   ```bash
-   curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
-   ```
-
-2. Login to Azure:
-   ```bash
-   az login
-   ```
-
-3. Create a Static Web App:
-   ```bash
-   az staticwebapp create \
-     --name developer-faq-blog \
-     --resource-group <your-resource-group> \
-     --source https://github.com/codess-aus/DeveloperFAQ \
-     --location "East US 2" \
-     --branch main \
-     --app-location "/" \
-     --output-location "/"
-   ```
-
-4. The Azure CLI will create a GitHub Actions workflow automatically
-
-## 🎨 Customization
+## Customization
 
 ### Colors
 
 Edit the CSS variables in `styles.css`:
+
 ```css
 :root {
     --accent-from: #667eea;  /* Gradient start color */
@@ -100,7 +86,7 @@ Edit the CSS variables in `styles.css`:
 
 The theme persists using localStorage and respects system preferences by default.
 
-## ♿ Accessibility Features
+## Accessibility Features
 
 - Semantic HTML structure
 - ARIA labels and roles
@@ -110,21 +96,20 @@ The theme persists using localStorage and respects system preferences by default
 - Reduced motion support
 - High contrast in both themes
 
-## 📱 Browser Support
+## Browser Support
 
 - Chrome/Edge (latest)
 - Firefox (latest)
 - Safari (latest)
 - Mobile browsers (iOS Safari, Chrome Mobile)
 
-## 📄 License
+## License
 
 See [LICENSE](LICENSE) file for details.
 
-## 🤝 Contributing
+## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
 
----
-
-Built with ❤️ for developer productivity
+When contributing a post, follow the publishing checklist and include the
+source Markdown when one exists.
