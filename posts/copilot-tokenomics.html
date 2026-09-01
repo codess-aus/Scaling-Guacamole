@@ -1,235 +1,127 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="A deep technical guide to AI tokenomics in GitHub Copilot workflows, covering usage based billing, cost drivers, token efficiency, and practical optimization patterns." />
-  <title>Tokenomics for AI Coding Agents | Michelle Sandford</title>
-  <link rel="stylesheet" href="../styles.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A systems view of GitHub Copilot tokenomics, usage metrics, telemetry completeness, and practical platform-team cost governance.">
+    <title>Tokenomics for AI Coding Agents - Developer FAQ</title>
+    <link rel="stylesheet" href="../styles.css">
 </head>
 <body>
-  <header class="site-header">
-    <nav class="nav container">
-      <a class="logo" href="../index.html">Michelle Sandford</a>
-      <ul class="nav-links">
-        <li><a href="../index.html">Home</a></li>
-      </ul>
-    </nav>
-  </header>
+    <header class="site-header">
+        <div class="container">
+            <div class="header-content">
+                <a href="../index.html" class="back-link">← Back to Blog</a>
+                <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Toggle dark mode">
+                    <svg class="sun-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                    <svg class="moon-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
 
-  <main class="container post-container">
-    <article class="post">
-      <header class="post-header">
-        <p class="post-date">September 1, 2026</p>
-        <h1>Tokenomics for AI Coding Agents: A Systems View of GitHub Copilot Usage Based Billing</h1>
-        <p class="post-subtitle">
-          A deep technical guide to token flow, orchestration overhead, cost governance, and practical optimization patterns in AI coding workflows.
-        </p>
-      </header>
+    <article class="container post-content">
+        <div class="post-hero">
+            <img src="../images/tokenomics.png" alt="Tokenomics diagram for AI coding agents showing token flow, budgets, and optimization loops">
+        </div>
 
-      <section>
-        <h2>Why tokenomics now matters for software teams</h2>
-        <p>
-          GitHub Copilot usage is increasingly measurable and governable, which means token economics has become a systems engineering concern. Teams now need to reason about model context, orchestration patterns, retries, and output design with the same rigor they apply to performance and reliability.
-        </p>
-        <p>
-          The core challenge is balance. You need high quality responses without uncontrolled token growth. That requires architecture choices, not just policy documents.
-        </p>
-      </section>
+        <div class="post-header">
+            <time class="post-date" datetime="2026-09-01">September 1, 2026</time>
+            <h1 class="post-title">Tokenomics for AI Coding Agents: A Systems View of GitHub Copilot Usage Based Billing</h1>
+        </div>
 
-      <section>
-        <h2>A practical token model</h2>
-        <p>Total token consumption can be modeled as:</p>
-        <pre><code>Total Tokens = Σ (Input Tokens + Output Tokens + Orchestration Overhead)</code></pre>
-        <p>
-          In multi step agentic workflows, orchestration overhead can become a major component. Each turn may carry repeated scaffolding, context framing, and tool interface metadata. If that repetition is unmanaged, cost grows quickly without proportional quality gains.
-        </p>
-      </section>
+        <div class="post-body">
+            <p>Tokenomics is a useful engineering lens for AI coding workflows: context, retries, output shape, and orchestration all affect cost and latency. But a platform team must first separate its own token and billing data from GitHub Copilot usage metrics. They answer related questions, not the same question.</p>
 
-      <section>
-        <h2>Token lifecycle in coding workflows</h2>
-        <ol>
-          <li><strong>Ingestion</strong>: prompt plus repository context</li>
-          <li><strong>Planning</strong>: task decomposition and routing</li>
-          <li><strong>Execution</strong>: code search, edits, and synthesis</li>
-          <li><strong>Verification</strong>: tests, logs, and diagnosis</li>
-          <li><strong>Delivery</strong>: PR summaries, explanations, and docs</li>
-        </ol>
-        <p>
-          Each stage has different failure modes. Ingestion can over attach context, planning can over fragment into tiny turns, execution can repeatedly re read unchanged files, and verification can dump full logs when only narrow excerpts are needed.
-        </p>
-      </section>
+            <h2>What Copilot usage metrics measure—and what they do not</h2>
+            <p>GitHub Copilot usage metrics show how Copilot is adopted and used across an enterprise or organization. They cover adoption and engagement, activity and acceptance, code-generation and lines-of-code trends, and pull-request lifecycle trends such as creation, merge counts, review suggestion activity, and time to merge. They can help teams ask whether enablement is working, whether developers use and accept suggestions, and how delivery flow changes alongside Copilot activity.</p>
+            <p>Those signals are not an exact token counter, a per-request cost record, or a complete billing ledger. In particular, usage-metrics reports do not include license or seat-management data; GitHub identifies the Copilot user-management API as the source of truth for seats. Do not multiply activity, accepted lines, or active users by an assumed token price and call the result Copilot spend. Actual billing and any model-call token accounting need their own authoritative internal or billing sources.</p>
 
-      <section>
-        <h2>Engineering patterns for efficiency</h2>
-        <h3>Progressive context loading</h3>
-        <p>
-          Start with small, high relevance context and expand only when uncertainty increases. This controls average input size and improves response time.
-        </p>
+            <h2>Where to find the reporting data</h2>
+            <ul>
+                <li><strong>Usage metrics APIs</strong> provide exportable data at enterprise, organization, repository, and user levels.</li>
+                <li><strong>The Copilot usage metrics dashboard</strong> visualizes 28-day trends for enterprises and organizations.</li>
+                <li><strong>The code generation dashboard</strong> breaks down code generated by users and agents.</li>
+                <li><strong>The Copilot impact dashboard</strong> groups adoption cohorts and relates them to pull-request output.</li>
+                <li><strong>NDJSON exports</strong> provide raw records for a custom BI pipeline or long-term storage.</li>
+            </ul>
+            <p>Choose the surface for the decision being made: a dashboard is useful for a recurring operating review, while APIs and NDJSON are better suited to reproducible internal analysis. GitHub recommends the usage metrics API for new integrations and analyses.</p>
 
-        <h3>Deterministic chunking</h3>
-        <p>
-          Split large files into stable chunks and reference chunk identifiers instead of repeatedly attaching full files. This improves reproducibility and trims repeated token payload.
-        </p>
+            <h2>Telemetry completeness changes interpretation</h2>
+            <p>The dataset is primarily derived from IDE, Copilot CLI, and agent-app telemetry. Rich feature, language, model, and lines-of-code reporting depends on end users enabling IDE telemetry. Missing client telemetry does not necessarily mean a person did not use Copilot: network conditions, proxies, and client settings can prevent it reaching GitHub.</p>
+            <p>GitHub supplements this with server-side telemetry so users missed by client telemetry can still count in active-user totals. A server-side-only user can appear in active-user totals and, when detected, IDE or extension-version reporting. Feature breakdowns and lines-of-code metrics for that user can remain empty until richer telemetry arrives. Treat an empty breakdown as <em>unavailable telemetry</em>, not as evidence of zero feature use or zero generated lines.</p>
+            <p>Coverage has defined boundaries. The documented dataset excludes Copilot Chat activity on GitHub.com (and GitHub Mobile), so it is not a complete record of every Copilot interaction. Reporting is also delayed: GitHub documents processing within two full UTC days after a day closes. For operational rollups, allow up to three full UTC days before treating a recent period as settled, so scheduled extracts and late-arriving reporting do not create false regressions.</p>
 
-        <h3>Stateful summaries</h3>
-        <p>
-          Maintain concise rolling summaries of what is known, what changed, and what remains unresolved. This reduces transcript replay costs across turns.
-        </p>
+            <h2>A practical token model</h2>
+            <p>For a workflow that you instrument yourself, total token consumption can be modeled as:</p>
+            <pre><code>Total Tokens = Σ (Input Tokens + Output Tokens + Orchestration Overhead)</code></pre>
+            <p>In multi-step agentic workflows, orchestration overhead can become a major component. Each turn may carry repeated scaffolding, context framing, tool metadata, retries, and coordination messages. Ingestion can over-attach context, planning can fragment into tiny turns, execution can reread unchanged files, and verification can emit full logs where narrow excerpts would do.</p>
 
-        <h3>Retry budgets</h3>
-        <p>
-          Retries should be policy driven. Limit attempts, classify transient versus terminal failures, and route failing tasks to fallback strategies.
-        </p>
-      </section>
+            <h2>Engineering patterns for efficiency</h2>
+            <h3>Progressive context loading</h3>
+            <p>Start with small, highly relevant context and expand it only when uncertainty increases. This controls average input size without prematurely withholding useful information.</p>
+            <h3>Deterministic chunking and summaries</h3>
+            <p>Use stable chunks and concise task summaries rather than repeatedly sending whole files and transcripts. Stable selection also makes workflow behavior easier to compare between runs.</p>
+            <h3>Retry budgets</h3>
+            <p>Classify failures, cap transient retries, and route terminal failures to a fallback. Unbounded retry loops turn a reliability fault into uncontrolled consumption.</p>
 
-      <section>
-        <h2>JavaScript example: centralized token instrumentation</h2>
-        <p>
-          This snippet demonstrates a clean wrapper around model calls. It logs token usage, enforces per workflow limits, and emits structured telemetry.
-        </p>
-        <pre><code class="language-javascript">/**
- * Central token budget manager.
- * Keeps accounting logic in one place so all workflows follow the same rules.
- */
-class TokenBudgetManager {
-  constructor(maxTokensPerWorkflow = 200000) {
-    this.maxTokensPerWorkflow = maxTokensPerWorkflow;
-    this.workflows = new Map();
+            <h2>Platform-team guidance: join signals, do not conflate them</h2>
+            <p><strong>Engineering guidance, not GitHub-defined metrics:</strong> retain usage-metrics exports for adoption and delivery-flow context, then join them with internal workflow telemetry such as request IDs, model identifiers, input and output tokens where available, retry counts, latency, task outcome, pull-request identifiers, and finance-approved cost data. Use an explicit reporting window and mark its telemetry coverage and freshness.</p>
+            <p><strong>Engineering guidance, not GitHub-defined metrics:</strong> derived ratios such as internally measured tokens per successful task, internal cost per merged pull request, or acceptance trend alongside deployment lead time are diagnostic hypotheses. They are not official GitHub metrics and do not establish causation. Compare like-for-like scopes, avoid treating empty fields as zero, and investigate changes in IDE telemetry coverage before acting on a trend.</p>
+
+            <h2>JavaScript example: analyze incomplete NDJSON exports</h2>
+            <p>This dependency-free Node.js example reads an exported NDJSON file one record at a time. It reports the sum of reported <code>daily_active_users</code> values and separately counts records where that field is absent or invalid. The distinction matters: the example does not silently turn incomplete telemetry into zero activity.</p>
+            <pre><code class="language-javascript">// node analyze-usage-export.js usage.ndjson
+const fs = require("node:fs");
+const readline = require("node:readline");
+
+const input = fs.createReadStream(process.argv[2], "utf8");
+const lines = readline.createInterface({ input, crlfDelay: Infinity });
+let reportedActiveUsers = 0;
+let recordsWithActiveUsers = 0;
+let recordsWithUnavailableActiveUsers = 0;
+
+lines.on("line", (line) => {
+  if (!line.trim()) return;
+  const record = JSON.parse(line);
+  const value = Number(record.daily_active_users);
+
+  // Absent or invalid values are coverage gaps, not zero-use observations.
+  if (Number.isFinite(value) &amp;&amp; value >= 0) {
+    reportedActiveUsers += value;
+    recordsWithActiveUsers += 1;
+  } else {
+    recordsWithUnavailableActiveUsers += 1;
   }
+});
 
-  getOrCreate(workflowId) {
-    if (!this.workflows.has(workflowId)) {
-      this.workflows.set(workflowId, {
-        inputTokens: 0,
-        outputTokens: 0,
-        requests: 0
-      });
-    }
-    return this.workflows.get(workflowId);
-  }
+lines.on("close", () => {
+  console.log({ reportedActiveUsers, recordsWithActiveUsers, recordsWithUnavailableActiveUsers });
+});</code></pre>
+            <p><strong>What:</strong> a minimal completeness-aware export check. <strong>Why:</strong> it keeps reporting gaps visible rather than masking them as low adoption. <strong>How:</strong> run it with an NDJSON export path, then investigate unavailable records before calculating a trend or joining the data to internal cost telemetry. Confirm the field names and aggregation scope against the export schema you requested; summing rows is not a substitute for GitHub's deduplicated active-user totals across scopes.</p>
 
-  register(workflowId, inputTokens, outputTokens) {
-    const stats = this.getOrCreate(workflowId);
-    stats.inputTokens += inputTokens;
-    stats.outputTokens += outputTokens;
-    stats.requests += 1;
+            <h2>Conclusion</h2>
+            <p>Copilot usage metrics make adoption, engagement, code generation, and pull-request flow observable, but they are not token accounting. Pair their documented coverage and limitations with deliberately instrumented internal cost and workflow signals. That separation lets platform teams improve developer experience and cost predictability without overstating what any one dataset proves.</p>
 
-    const total = stats.inputTokens + stats.outputTokens;
-    if (total &gt; this.maxTokensPerWorkflow) {
-      throw new Error(`Token budget exceeded: ${total}/${this.maxTokensPerWorkflow}`);
-    }
-    return { ...stats, totalTokens: total };
-  }
-}
-
-/**
- * Wrapper that executes one model call and emits telemetry.
- */
-async function runWithTokenMetrics({ workflowId, stage, model, callModel, budgetManager, emit }) {
-  const start = Date.now();
-
-  const result = await callModel();
-
-  const inputTokens = Number(result?.usage?.input_tokens || 0);
-  const outputTokens = Number(result?.usage?.output_tokens || 0);
-
-  const budget = budgetManager.register(workflowId, inputTokens, outputTokens);
-
-  emit({
-    event: "llm_usage",
-    workflowId,
-    stage,
-    model,
-    inputTokens,
-    outputTokens,
-    totalWorkflowTokens: budget.totalTokens,
-    latencyMs: Date.now() - start,
-    timestamp: new Date().toISOString()
-  });
-
-  return result;
-}</code></pre>
-      </section>
-
-      <section>
-        <h2>Python example: adaptive context compaction</h2>
-        <p>
-          This example shows deterministic context selection under a hard token target. The logic is intentionally simple for operational clarity.
-        </p>
-        <pre><code class="language-python">from dataclasses import dataclass
-from typing import List
-
-@dataclass
-class ContextBlock:
-    # Unique identifier for observability and reproducibility
-    block_id: str
-    # Larger value means higher relevance
-    priority: int
-    # Raw text passed to the model
-    text: str
-
-def estimate_tokens(text: str) -> int:
-    # Lightweight estimate for planning.
-    # Replace with model tokenizer for precise accounting in production.
-    if not text:
-        return 0
-    return max(1, len(text) // 4)
-
-def compact_context(blocks: List[ContextBlock], max_tokens: int) -> List[ContextBlock]:
-    # Deterministic sort improves repeatability between runs.
-    ordered = sorted(blocks, key=lambda b: b.priority, reverse=True)
-
-    selected: List[ContextBlock] = []
-    used = 0
-
-    for block in ordered:
-        t = estimate_tokens(block.text)
-        if used + t > max_tokens:
-            continue
-        selected.append(block)
-        used += t
-
-    return selected</code></pre>
-      </section>
-
-      <section>
-        <h2>Governance model for platform teams</h2>
-        <ul>
-          <li>Set team and workflow token budgets</li>
-          <li>Track tokens per successful task and per merged PR</li>
-          <li>Alert on retry spikes and abnormal token ratios</li>
-          <li>Standardize telemetry fields across tools</li>
-          <li>Review optimization opportunities monthly</li>
-        </ul>
-        <p>
-          A useful insight from real deployments is that one workflow stage often dominates spend. Stage level tagging helps you prioritize quickly and avoid broad, disruptive process changes.
-        </p>
-      </section>
-
-      <section>
-        <h2>Conclusion</h2>
-        <p>
-          Usage based billing should be viewed as an engineering catalyst. Teams that design for token efficiency with observability, deterministic context handling, and policy driven orchestration can improve both cost predictability and developer throughput.
-        </p>
-      </section>
-
-      <section>
-        <h2>References</h2>
-        <ul>
-          <li><a href="https://github.blog/news-insights/company-news/github-copilot-is-moving-to-usage-based-billing/" target="_blank" rel="noopener noreferrer">GitHub Copilot is moving to usage based billing</a></li>
-          <li><a href="https://github.blog/changelog/2026-06-01-updates-to-github-copilot-billing-and-plans/" target="_blank" rel="noopener noreferrer">Updates to GitHub Copilot billing and plans</a></li>
-          <li><a href="https://docs.github.com/en/copilot/concepts/billing/usage-based-billing-for-organizations-and-enterprises" target="_blank" rel="noopener noreferrer">Usage based billing for organizations and enterprises</a></li>
-          <li><a href="https://github.blog/ai-and-ml/github-copilot/improving-token-efficiency-in-github-agentic-workflows/" target="_blank" rel="noopener noreferrer">Improving token efficiency in GitHub agentic workflows</a></li>
-        </ul>
-      </section>
+            <h2>References</h2>
+            <ul>
+                <li><a href="https://docs.github.com/en/copilot/concepts/copilot-usage-metrics/copilot-metrics" target="_blank" rel="noopener noreferrer">GitHub Docs: GitHub Copilot usage metrics</a></li>
+                <li><a href="https://docs.github.com/en/copilot/concepts/billing/usage-based-billing-for-organizations-and-enterprises" target="_blank" rel="noopener noreferrer">GitHub Docs: Usage based billing for organizations and enterprises</a></li>
+                <li><a href="https://github.blog/ai-and-ml/github-copilot/improving-token-efficiency-in-github-agentic-workflows/" target="_blank" rel="noopener noreferrer">GitHub Blog: Improving token efficiency in GitHub agentic workflows</a></li>
+            </ul>
+        </div>
     </article>
-  </main>
 
-  <footer class="site-footer">
-    <div class="container">
-      <p>&copy; 2026 Michelle Sandford. All rights reserved.</p>
-    </div>
-  </footer>
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; 2026 Developer FAQ. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="../script.js"></script>
 </body>
 </html>
